@@ -1,0 +1,41 @@
+
+<div class = "row" style=" padding-top: 54px;">    
+  <div class="col-lg-4 col-md-6 mb-4">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title style ="text-align: center;">Analytics of financial markets</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="./assets/img/alalytics.jpg" alt="Analytics">
+      <mat-card-content>
+        <button type="button" class="btn btn-primary" (click)="childModal.show()">Analytics</button>
+        <common-modal #childModal [title]="'Analytics'"> </common-modal>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <div class="col-lg-4 col-md-6 mb-4">
+      <mat-card class="example-card">
+        <mat-card-header>
+          <mat-card-title>Table from a list of quotes</mat-card-title>
+          </mat-card-header>
+            <img mat-card-image src="./assets/img/quotes.jpg" alt="Quotes">
+          <mat-card-content>
+            <button type="button" class="btn btn-primary" (click)="childModal2.show2()">Quotes</button>
+            <common-modal #childModal2 [title]="'Quotes'"> </common-modal>                      
+          </mat-card-content>
+        </mat-card>
+</div>
+
+  <div class="col-lg-4 col-md-6 mb-4">
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title>Stock of selected instrument</mat-card-title>
+      </mat-card-header>
+      <img mat-card-image src="./assets/img/stocks.jpg" alt="Stocks">
+      <mat-card-content>
+        <button type="button" class="btn btn-primary" (click)="childModal3.show3()">Stocks</button>
+        <common-modal #childModal3 [title]="'Stocks'"> </common-modal>        
+    </mat-card-content>
+    </mat-card>
+  </div>
+</div>
