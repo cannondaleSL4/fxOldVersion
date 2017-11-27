@@ -1,14 +1,9 @@
 package com.dim.fxapp.gateway;
 
-import com.dim.fxapp.gateway.filter.ErrorFilter;
-import com.dim.fxapp.gateway.filter.PostFilter;
-import com.dim.fxapp.gateway.filter.PreFilter;
-import com.dim.fxapp.gateway.filter.RouteFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
-import org.springframework.context.annotation.Bean;
 
 
 @SpringBootApplication
@@ -20,7 +15,7 @@ public class GatewayApplication {
 		SpringApplication.run(GatewayApplication.class, args);
 	}
 
-	@Bean
+	/*@Bean
 	public PreFilter preFilter() {
 		return new PreFilter();
 	}
@@ -38,5 +33,5 @@ public class GatewayApplication {
 	@Bean
 	public RouteFilter routeFilter() {
 		return new RouteFilter();
-	}
+	}*/
 }

@@ -10,16 +10,9 @@ eureka:
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
 
-#zuul:
-#  prefix: /api
-#  routes:
-#    request:
-#      path: /request/**
-#      url: http://localhost:9098
-
 zuul:
-  prefix: /api
   routes:
-    customer-by-address:
-      path: /customer-by-address/**
-      url: http://localhost:9098
+    request:
+      path: /request/**
+      #url: http://localhost:9098
+      stripPrefix: false
