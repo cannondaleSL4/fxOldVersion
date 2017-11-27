@@ -1,27 +1,20 @@
 #server:
-#  port: ${PORT:3333}
+#  port: ${PORT:2222}
 #
 #spring:
 #  application:
 #    name: request
 #
-#eureka:
-#  client:
-#    serviceUrl:
-#      defaultZone: http://localhost:8761/eureka/
-#
-#ribbon:
-#  eureka:
-#    enabled: true
+
 
 server:
-  port: ${PORT:2222}
+  port: 9098
 
 spring:
   application:
-    name: request
+    name: customer-service
 
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://127.0.0.1:8761/eureka/
