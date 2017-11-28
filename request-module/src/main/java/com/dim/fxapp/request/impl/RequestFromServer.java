@@ -1,5 +1,6 @@
-package com.dim.fxapp.request;
+package com.dim.fxapp.request.impl;
 
+import com.dim.fxapp.request.Request;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -18,7 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class RequestFromServer{
+public class RequestFromServer implements Request{
 
     // essential URL structure is built using constants
     public static final String ACCESS_KEY = "96748e760f44176b0ff16b234e204ea1";
