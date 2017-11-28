@@ -14,5 +14,5 @@ zuul:
   routes:
     request:
       path: /request/**
-      #url: http://localhost:9098
-      stripPrefix: false
+      url: http://localhost:9098
+      #stripPrefix: false
