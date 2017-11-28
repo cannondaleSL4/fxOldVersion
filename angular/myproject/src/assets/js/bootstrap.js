@@ -875,7 +875,7 @@ var Carousel = function ($) {
       }
 
       if (!activeElement || !nextElement) {
-        // some weirdness is happening, so we bail
+        // inter weirdness is happening, so we bail
         return;
       }
 

@@ -1,4 +1,4 @@
-package com.dim.fxapp.request;
+package com.dim.fxapp.request.inter;
 
 /**
  * Created by dima on 28.11.17.

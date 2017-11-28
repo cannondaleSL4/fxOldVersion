@@ -1,7 +1,7 @@
 package com.dim.fxapp.request.impl;
 
 import com.dim.fxapp.entity.impl.Quotes;
-import com.dim.fxapp.request.Request;
+import com.dim.fxapp.request.inter.Request;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
