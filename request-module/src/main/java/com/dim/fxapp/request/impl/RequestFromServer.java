@@ -34,7 +34,7 @@ public class RequestFromServer implements Request{
 
         // The following line initializes the HttpGet Object with the URL in order to send a request
         HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY);
-
+        
         try {
             CloseableHttpResponse response =  httpClient.execute(get);
             HttpEntity entity = response.getEntity();
@@ -67,9 +67,9 @@ public class RequestFromServer implements Request{
     }
 
     // sendLiveRequest() function is executed
-    public static void main(String[] args) throws IOException{
+    /*public static void main(String[] args) throws IOException{
         sendLiveRequest();
         httpClient.close();
         new BufferedReader(new InputStreamReader(System.in)).readLine();
-    }
+    }*/
 }
