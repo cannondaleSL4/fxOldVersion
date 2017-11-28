@@ -66,6 +66,13 @@
 			<artifactId>json</artifactId>
 			<version>20090211</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.fxapp.entity</groupId>
+			<artifactId>entity</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
 	</dependencies>
 
 	<dependencyManagement>

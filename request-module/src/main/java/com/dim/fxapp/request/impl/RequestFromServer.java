@@ -1,5 +1,7 @@
 package com.dim.fxapp.request.impl;
 
+import com.dim.fxapp.entity.impl.Quotes;
+
 import com.dim.fxapp.request.Request;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
@@ -34,7 +36,9 @@ public class RequestFromServer implements Request{
 
         // The following line initializes the HttpGet Object with the URL in order to send a request
         HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY);
-        
+
+        Quotes quotes = new Quotes();
+
         try {
             CloseableHttpResponse response =  httpClient.execute(get);
             HttpEntity entity = response.getEntity();
