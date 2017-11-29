@@ -1,6 +1,6 @@
 package com.dim.fxapp.request.controller;
 
-import com.dim.fxapp.request.impl.RequestFromServer;
+import com.dim.fxapp.request.execute.RequestFromServer;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
