@@ -28,6 +28,8 @@ public class RequestFromServer {
 
     public static void sendLiveRequest(){
 
+        /*
+
         HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY);
 
         Quotes quotes = new Quotes();
@@ -57,6 +59,8 @@ public class RequestFromServer {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+
+        */
     }
 
     // sendLiveRequest() function is executed
