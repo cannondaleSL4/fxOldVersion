@@ -13,7 +13,5 @@ public interface RequestCurrency {
     String ENDPOINT_LIVE = "live";
     String ENDPOINT_HIST = "historical";
 
-    CloseableHttpClient httpClient = HttpClients.createDefault();
-    
     void sendLiveRequest();
 }
