@@ -1,5 +1,6 @@
 package com.dim.fxapp.request.execute;
 
+import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 
@@ -16,9 +17,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dima on 30.11.17.
@@ -26,6 +25,7 @@ import java.util.Map;
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract {
     static CloseableHttpClient httpClient = HttpClients.createDefault();
     private HttpGet httpGet;
+    private Map<String, Object> mapResp;
 
     @Override
     public QuotesLive getQuote(String currencyName) {
@@ -39,31 +39,32 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract {
         try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
             HttpEntity entity = response.getEntity();
 
-            Map<String, Object> mapResp = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+            mapResp = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
 
-            if (mapResp.containsKey("error")){
-                return mapResp;
-            }
+            int i = 25;
 
-            int main = 25;
 //            Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
 //            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
 //            String formattedDate = dateFormat.format(timeStampDate);
-
-
-            //System.out.println("1 " + exchangeRates.getString("source") + " in GBP : " + exchangeRates.getJSONObject("quotes").getDouble("USDGBP") + " (Date: " + formattedDate + ")");
-            //response.close();
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return null;
+        return mapResp.containsKey("error") ? mapResp : parseResponse(mapResp);
     }
 
     @Override
     public Map<String,Object> getQuotes(List currenciesNames) {
         return null;
+    }
+
+    private Map<String,Object> parseResponse(Map<String,Object> response){
+        List<QuotesLive> liveList = new LinkedList<QuotesLive>();
+
+        Map<String,Double> tempMap = (Map<String, Double>) response.get("rates");
+
+        return new HashMap<String,Object>();
     }
 
 }
