@@ -5,10 +5,7 @@ import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.request.execute.Request;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dima on 02.12.17.
@@ -35,27 +32,20 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     @Value("${currency.base}")
     protected String BASE;
 
-    /*
-    Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
-    String formattedDate = dateFormat.format(timeStampDate);
-     */
+    protected List<Currency> currencyList = new ArrayList<>(); //Arrays.asList(Currency.values());
 
-
-    protected List<Currency> currencyList;
     protected List<Request> requestList = new LinkedList<Request>();
     protected Date date;
     protected Date from;
     protected Date to;
 
 
-    protected static abstract class Builder <T extends ExecuteRequestAbstract,
-            B extends Builder<T,B>> {
+    protected static abstract class Builder <T extends ExecuteRequestAbstract, B extends Builder<T,B>> {
 
         private T obj;
         private B thisObj;
 
-        List<Currency> currencyList;
+        //List<Currency> currencyList = new LinkedList<Currency>(Arrays.asList(Currency.values()));
         List<Request> requestList = new LinkedList<Request>();
         Date date;
         Date from;
@@ -71,7 +61,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         protected abstract B getThis();
 
         public B setList(List<Currency> currencyList){
-            this.currencyList = currencyList;
+            //this.currencyList = currencyList;
             return thisObj;
         }
 
@@ -139,3 +129,10 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         this.to = to;
     }
 }
+
+
+/*
+    Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+    String formattedDate = dateFormat.format(timeStampDate);
+     */

@@ -18,3 +18,4 @@ currency:
   timeseries: time-series.json
   ohlc: ohlc.json
   base: &base
+  currency: &currencies

@@ -10,8 +10,11 @@ public enum Currency {
     AUDUSD ("AUDUSD"),
     NZDUSD ("NZDUSD"),
     CADUSD ("CADUSD"),
+
+
     GBPAUD ("GBPAUD"),
     GBPJPY ("GBPJPY"),
+    GBPNZD ("GBPNZD"),
 
     XAUUSD ("XAUUSD"),
     XAGUSD ("XAGUSD");
