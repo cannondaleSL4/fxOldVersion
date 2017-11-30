@@ -1,10 +1,10 @@
 package com.dim.fxapp.request;
 
+import com.dim.fxapp.entity.FinancialEntity;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by dima on 30.11.17.
@@ -16,10 +16,41 @@ public abstract class RequestAbstractClass {
     protected String SOURCES = "USD";
     protected JSONObject exchangeRates;
     protected String currencies="";
-    protected List<String> listOfCurrencies = new ArrayList<String>();
+    //protected List<String> listOfCurrencies = new ArrayList<String>();
+    protected List<FinancialEntity> listOfResponse = new ArrayList<FinancialEntity>();
+    protected List<List<String>> listOfListOfCurrencies = new ArrayList<>();
+
 
     public RequestAbstractClass(List<String> listOfCurrencies){
+
+        /*Comparator<String> cmp = new Comparator<String>() {
+            @Override
+            public int compare(String o1, String o2) {
+                if (o1.contains("USD") &&
+                        !o2.contains("USD")){
+                    return -1;
+                }
+
+                if (!o1.contains("USD") &&
+                        o2.contains("USD")){
+                    return 1;
+                }
+
+                return 0;
+            }
+        };
+
         this.listOfCurrencies = listOfCurrencies;
+        Collections.sort(listOfCurrencies,cmp);*/
+
+        for(String str : listOfCurrencies){
+            if (str.contains("USD")){
+                listOfListOfCurrencies.get(0).add(str);
+                listOfCurrencies.remove(str);
+            }
+
+        }
+
         String prefix = "";
         StringBuilder tempcurrencies = new StringBuilder();
         for(String currensy: listOfCurrencies){

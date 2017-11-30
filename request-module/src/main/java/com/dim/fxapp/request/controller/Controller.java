@@ -15,7 +15,7 @@ import java.util.Arrays;
 public class Controller {
     @RequestMapping(value = "/test")
     public String home() {
-        RequestQuotesExecute requestQuotesExecute = new RequestQuotesExecute(Arrays.asList(Currency.EURUSD,Currency.GBPUSD));
+        RequestQuotesExecute requestQuotesExecute = new RequestQuotesExecute(Arrays.asList(Currency.GBPAUD,Currency.EURUSD,Currency.GBPJPY,Currency.GBPUSD));
 
         return requestQuotesExecute.getLiveQuotes().toString();
     }

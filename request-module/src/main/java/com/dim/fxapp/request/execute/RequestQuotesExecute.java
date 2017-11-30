@@ -1,5 +1,6 @@
 package com.dim.fxapp.request.execute;
 
+import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.request.RequestAbstractClass;
 import org.apache.http.HttpEntity;
@@ -22,23 +23,26 @@ import java.util.*;
  */
 public class RequestQuotesExecute extends RequestAbstractClass {
 
-
-
     public  RequestQuotesExecute(List<String> listOfCurrencies){
         super(listOfCurrencies);
     }
 
     @Override
     public Map<String,Object> getLiveQuotes() {
-        CloseableHttpClient httpClient = HttpClients.createDefault();
 
         if (currencies == null){
             System.out.println("you have no any currency set up");
             return null;
         }
 
-        HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY + "&currencies=" + currencies);
 
+
+        return parseResponce(exchangeRates);
+    }
+
+    private void execute(){
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY + "&currencies=" + currencies);
         try(CloseableHttpResponse response =  httpClient.execute(get)) {
             HttpEntity entity = response.getEntity();
             exchangeRates = new JSONObject(EntityUtils.toString(entity));
@@ -54,14 +58,12 @@ public class RequestQuotesExecute extends RequestAbstractClass {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return parseResponce(exchangeRates);
     }
 
     private Map<String,Object> parseResponce(JSONObject response) {
         Map<String, Object> map = new HashMap<String, Object>();
         Boolean success;
         Date date;
-        List<Quotes> listOfResponse = new ArrayList<Quotes>();
 
         try {
             success = exchangeRates.getBoolean("success");
@@ -83,6 +85,7 @@ public class RequestQuotesExecute extends RequestAbstractClass {
         }
         return map;
     }
+
 
     private String getName(String anotherName){
         if (anotherName.equals("JPY"))return anotherName + "USD";
