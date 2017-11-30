@@ -1,5 +1,6 @@
 package com.dim.fxapp.request.controller;
 
+import com.dim.fxapp.entity.Currency;
 import com.dim.fxapp.request.execute.RequestFromServer;
 import com.dim.fxapp.request.execute.RequestQuotesExecute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,8 +15,8 @@ import java.util.Arrays;
 public class Controller {
     @RequestMapping(value = "/test")
     public String home() {
-        RequestQuotesExecute requestQuotesExecute = new RequestQuotesExecute(Arrays.asList("EUR","GBP"));
+        RequestQuotesExecute requestQuotesExecute = new RequestQuotesExecute(Arrays.asList(Currency.EUR,Currency.GBP));
 
-        return requestQuotesExecute.getLiveQuotes();
+        return requestQuotesExecute.getLiveQuotes().toString();
     }
 }

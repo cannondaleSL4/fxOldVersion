@@ -10,4 +10,11 @@ public interface Currency {
     String AUD = "AUD";
     String NZD = "NZD";
     String CAD = "CAD";
+
+    String EURUSD = "EURUSD";
+    String GBPUSD = "GBPUSD";
+    String JPYUSD = "JPYUSD";
+    String AUDUSD = "AUDUSD";
+    String NZDUSD = "NZDUSD";
+    String CADUSD = "CADUSD";
 }
