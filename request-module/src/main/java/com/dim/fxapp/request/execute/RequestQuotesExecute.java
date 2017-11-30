@@ -1,6 +1,7 @@
 package com.dim.fxapp.request.execute;
 
 import com.dim.fxapp.entity.impl.Quotes;
+import com.dim.fxapp.request.RequestAbstractClass;
 import org.apache.http.HttpEntity;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
@@ -19,32 +20,17 @@ import java.util.*;
 /**
  * Created by dima on 29.11.17.
  */
-public class RequestQuotesExecute {
-    private String ACCESS_KEY = "96748e760f44176b0ff16b234e204ea1";
-    private String BASE_URL = "http://apilayer.net/api/";
-    private String ENDPOINT = "live";
-    private JSONObject exchangeRates;
-    private String currencies="";
-    private List<String> listOfCurrencies = new ArrayList<String>();
+public class RequestQuotesExecute extends RequestAbstractClass {
+
 
 
     public  RequestQuotesExecute(List<String> listOfCurrencies){
-
-        this.listOfCurrencies = listOfCurrencies;
-
-        String prefix = "";
-        StringBuilder tempcurrencies = new StringBuilder();
-        for(String currensy: listOfCurrencies){
-            tempcurrencies.append(prefix);
-            prefix = ",";
-            tempcurrencies.append(currensy);
-        }
-        currencies = tempcurrencies.toString();
+        super(listOfCurrencies);
     }
 
+    @Override
     public Map<String,Object> getLiveQuotes() {
         CloseableHttpClient httpClient = HttpClients.createDefault();
-
 
         if (currencies == null){
             System.out.println("you have no any currency set up");
@@ -52,8 +38,6 @@ public class RequestQuotesExecute {
         }
 
         HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY + "&currencies=" + currencies);
-
-        Quotes quotes = new Quotes();
 
         try(CloseableHttpResponse response =  httpClient.execute(get)) {
             HttpEntity entity = response.getEntity();
@@ -85,7 +69,7 @@ public class RequestQuotesExecute {
                 date = new Date();
                 for(String str: listOfCurrencies){
                     Quotes tempQuote = new Quotes.Builder()
-                            .name(getName(str))
+                            .name(str)
                             .price(getPrice(str))
                             .build();
                     listOfResponse.add(tempQuote);
