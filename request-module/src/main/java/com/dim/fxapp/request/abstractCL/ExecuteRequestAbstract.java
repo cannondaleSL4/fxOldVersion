@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dima on 02.12.17.
@@ -95,8 +96,8 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public abstract F getQuote(String currencyName);
-    public  abstract List<F> getQuotes();
-    public abstract List<F> getQuotes(List<String> currenciesNames);
+    public  abstract Map<String,Object> getQuotes();
+    public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
 
     public List<Currency> getCurrencyList() {
         return currencyList;

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dima on 18.11.17.
@@ -26,7 +26,7 @@ public class Controller {
     private ExecuteRequestAbstract<Quotes> getQuotes;
 
     @RequestMapping(value = "/livequotes")
-    public List<QuotesLive> getQuotesLive() {
+    public Map<String,Object> getQuotesLive() {
         return getLiveQuotes.getQuotes();
     }
 }
