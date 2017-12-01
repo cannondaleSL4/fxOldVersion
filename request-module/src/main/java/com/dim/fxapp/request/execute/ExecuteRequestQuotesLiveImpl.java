@@ -25,7 +25,8 @@ import java.util.*;
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
     static CloseableHttpClient httpClient = HttpClients.createDefault();
     private HttpGet httpGet;
-    private Map<String, Object> mapResp;
+    private Map<String, Object> mapResp; // full response from server
+    private Map<String,Double> ratesMap; // only rates map from mapResp
 
     @Override
     public QuotesLive getQuote(String currencyName) {
@@ -52,25 +53,28 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         return null;
     }
 
-    private Map<String,Object> parseResponse(Map<String,Object> response){
+    private Map<String,Object> parseResponse(){
         List<QuotesLive> liveList = new LinkedList<QuotesLive>();
         QuotesLive quotesLive;
-        Map<String,Double> tempMap = (Map<String, Double>) response.get("rates");
-
+        ratesMap = (Map<String, Double>) mapResp.get("rates");
         for(Currency currency : currencyList){
-            if (tempMap.containsKey(currency.toString().substring(0,3))){
-                quotesLive = new QuotesLive.Builder()
-                        .name(currency.toString())
-                        .price(new BigDecimal(tempMap.get(currency.toString().substring(0,3))).ide(1,r))
-                        .build();
-                financialEntities.add(quotesLive);
-
+            if (ratesMap.containsKey(currency.toString().substring(0,3))){
+                addToEntityList(currency);
             }
         }
+        mapResp.put(mapKey,financialEntities);
+        return mapResp;
+    }
 
-        response.put(mapKey,financialEntities);
-
-        return response;
+    private void addToEntityList(Currency currency){
+        QuotesLive quotesLive;
+        quotesLive = new QuotesLive.Builder()
+                .name(currency.toString())
+                .price(new BigDecimal(ratesMap.get(currency.toString()
+                        .substring(0,3)))
+                        .setScale(4))
+                .build();
+        financialEntities.add(quotesLive);
     }
 
     private String getStringRequest(){
