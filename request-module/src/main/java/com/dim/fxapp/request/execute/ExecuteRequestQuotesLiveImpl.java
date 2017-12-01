@@ -45,7 +45,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return mapResp.containsKey("error") ? mapResp : parseResponse(mapResp);
+        return mapResp.containsKey("error") ? mapResp : parseResponse();
     }
 
     @Override
@@ -72,7 +72,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                 .name(currency.toString())
                 .price(new BigDecimal(ratesMap.get(currency.toString()
                         .substring(0,3)))
-                        .setScale(4))
+                        .divide(new BigDecimal(1))
+                        .setScale(4,BigDecimal.ROUND_HALF_DOWN))
                 .build();
         financialEntities.add(quotesLive);
     }
