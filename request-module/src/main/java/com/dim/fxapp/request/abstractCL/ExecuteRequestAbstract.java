@@ -29,10 +29,14 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected String TIMESERIES;
     @Value("${currency.ohlc}")
     protected String OHLC;
+    @Value("${currency.symbols}")
+    protected String SYMBOLS;
     @Value("${currency.base}")
     protected String BASE;
 
-    protected List<Currency> currencyList = new ArrayList<>(); //Arrays.asList(Currency.values());
+    protected List<Currency> currencyList = Arrays.asList(Currency.values());
+    protected List<FinancialEntity> financialEntities = new ArrayList<FinancialEntity>();
+    protected final String mapKey = "finEntity";
 
     protected List<Request> requestList = new LinkedList<Request>();
     protected Date date;

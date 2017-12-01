@@ -16,6 +16,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -37,9 +38,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         httpGet = new HttpGet(request );
         try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
             HttpEntity entity = response.getEntity();
-
             mapResp = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
-
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -55,20 +54,36 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
     private Map<String,Object> parseResponse(Map<String,Object> response){
         List<QuotesLive> liveList = new LinkedList<QuotesLive>();
-
+        QuotesLive quotesLive;
         Map<String,Double> tempMap = (Map<String, Double>) response.get("rates");
 
-        return new HashMap<String,Object>();
+        for(Currency currency : currencyList){
+            if (tempMap.containsKey(currency.toString().substring(0,3))){
+                quotesLive = new QuotesLive.Builder()
+                        .name(currency.toString())
+                        .price(new BigDecimal(tempMap.get(currency.toString().substring(0,3))).ide(1,r))
+                        .build();
+                financialEntities.add(quotesLive);
+
+            }
+        }
+
+        response.put(mapKey,financialEntities);
+
+        return response;
     }
 
     private String getStringRequest(){
-        String str = MAIN + LATEST + MYAPPID;
+        String str = MAIN + LATEST + MYAPPID +"&" + SYMBOLS + "=" ;
 
+        StringBuilder response = new StringBuilder();
         for(Currency currency : currencyList){
-
+            response.append(currency.toString().substring(0,3) + ",");
         }
 
-        return str;
+        response.setLength(response.length() - 1);
+
+        return str + response.toString();
     }
 
 }

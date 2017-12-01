@@ -12,9 +12,9 @@ public enum Currency {
     CADUSD ("CADUSD"),
 
 
-    GBPAUD ("GBPAUD"),
+    /*GBPAUD ("GBPAUD"),
     GBPJPY ("GBPJPY"),
-    GBPNZD ("GBPNZD"),
+    GBPNZD ("GBPNZD"),*/
 
     XAUUSD ("XAUUSD"),
     XAGUSD ("XAGUSD");

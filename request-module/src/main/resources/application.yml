@@ -17,5 +17,5 @@ currency:
   historical: historical/*.json
   timeseries: time-series.json
   ohlc: ohlc.json
+  symbols: symbols
   base: &base
-  currency: &currencies

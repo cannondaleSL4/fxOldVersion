@@ -8,6 +8,9 @@ import java.util.Date;
 /**
  * Created by dima on 02.12.17.
  */
+/*
+i have no any idea what this class for )))
+ */
 public class Request {
     private String baseCurrency;
     private String quoteCurrency;
