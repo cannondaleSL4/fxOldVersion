@@ -1,7 +1,6 @@
 package com.dim.fxapp.request.execute;
 
 import com.dim.fxapp.entity.enums.Currency;
-import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 
@@ -17,6 +16,8 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 
 /**
@@ -68,12 +69,11 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
     private void addToEntityList(Currency currency){
         QuotesLive quotesLive;
+        BigDecimal norevert = new BigDecimal(ratesMap.get(currency.toString()
+                .substring(0,3)));
         quotesLive = new QuotesLive.Builder()
                 .name(currency.toString())
-                .price(new BigDecimal(ratesMap.get(currency.toString()
-                        .substring(0,3)))
-                        .divide(new BigDecimal(1))
-                        .setScale(4,BigDecimal.ROUND_HALF_DOWN))
+                .price(BigDecimal.ONE.divide(norevert,4,RoundingMode.HALF_UP))
                 .build();
         financialEntities.add(quotesLive);
     }
