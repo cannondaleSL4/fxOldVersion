@@ -1,12 +1,3 @@
-#server:
-#  port: ${PORT:2222}
-#
-#spring:
-#  application:
-#    name: request
-#
-
-
 server:
   port: 9098
 
@@ -18,3 +9,12 @@ eureka:
   client:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
+
+currency:
+  main : https://openexchangerates.org/api/
+  myappid: app_id=fde14524a8444f7390f3b18580348cf9
+  last: latest.json
+  historical: historical/*.json
+  timeseries: time-series.json
+  ohlc: ohlc.json
+  base: &base

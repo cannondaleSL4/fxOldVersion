@@ -24,4 +24,5 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract {
     protected List<QuotesLive> getQuotes(List currenciesNames) {
         return null;
     }
+
 }

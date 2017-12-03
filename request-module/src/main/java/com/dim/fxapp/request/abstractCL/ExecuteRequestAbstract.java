@@ -1,8 +1,9 @@
 package com.dim.fxapp.request.abstractCL;
 
 import com.dim.fxapp.entity.FinancialEntity;
-import com.dim.fxapp.entity.impl.Currency;
+import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.request.execute.Request;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.util.Date;
 import java.util.LinkedList;
@@ -18,16 +19,20 @@ import java.util.List;
 
 public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
-    protected String mainEndPoint = "https://openexchangerates.org/api/";
-    protected String myAppId = "app_id=fde14524a8444f7390f3b18580348cf9";
-
-    protected String latestEndPoint = "latest.json";
-
-    protected String historicalEndPoint = "historical/*.json";
-
-    protected String timeSeriesEndPoint = "time-series.json";
-
-    protected String ohlc = "ohlc.json";
+    @Value("${currency.main}")
+    protected String MAIN;
+    @Value("${currency.myappid}")
+    protected String MYAPPID;
+    @Value("${currency.last}")
+    protected String LAST;
+    @Value("${currency.historical}")
+    protected String HISTORICAL;
+    @Value("${currency.timeseries}")
+    protected String TIMESERIES;
+    @Value("${currency.ohlc}")
+    protected String OHLC;
+    @Value("${currency.base}")
+    protected String BASE;
 
 
     protected List<Currency> currencyList;
@@ -77,6 +82,10 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
             this.to = to;
             return thisObj;
         }
+    }
+
+    public String getString(){
+        return MAIN;
     }
 
     protected ExecuteRequestAbstract(){

@@ -1,6 +1,6 @@
 package com.dim.fxapp.request.execute;
 
-import com.dim.fxapp.entity.impl.Currency;
+import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.request.exeption.CurrencyRequestExeption;
 
 import java.util.Date;

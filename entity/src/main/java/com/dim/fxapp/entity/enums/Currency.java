@@ -1,4 +1,4 @@
-package com.dim.fxapp.entity.impl;
+package com.dim.fxapp.entity.enums;
 
 /**
  * Created by dima on 02.12.17.
@@ -11,7 +11,10 @@ public enum Currency {
     NZDUSD ("NZDUSD"),
     CADUSD ("CADUSD"),
     GBPAUD ("GBPAUD"),
-    GBPJPY ("GBPJPY");
+    GBPJPY ("GBPJPY"),
+
+    XAUUSD ("XAUUSD"),
+    XAGUSD ("XAGUSD");
 
     private final String currency;
 
