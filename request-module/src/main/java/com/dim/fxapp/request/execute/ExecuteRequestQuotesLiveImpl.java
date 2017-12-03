@@ -13,9 +13,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,9 +36,11 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract {
 
             JSONObject exchangeRates = new JSONObject(EntityUtils.toString(entity));
 
-            Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
-            String formattedDate = dateFormat.format(timeStampDate);
+//            Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
+//            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+//            String formattedDate = dateFormat.format(timeStampDate);
+
+
             //System.out.println("1 " + exchangeRates.getString("source") + " in GBP : " + exchangeRates.getJSONObject("quotes").getDouble("USDGBP") + " (Date: " + formattedDate + ")");
             //response.close();
         } catch (ClientProtocolException e) {
