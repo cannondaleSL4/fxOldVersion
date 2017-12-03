@@ -90,10 +90,6 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         }
     }
 
-    public String getString(){
-        return MAIN;
-    }
-
     protected ExecuteRequestAbstract(){
 
     }
