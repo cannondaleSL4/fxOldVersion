@@ -1,5 +1,6 @@
 package com.dim.fxapp.request.controller;
 
+import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
+import java.util.List;
 
 /**
  * Created by dima on 18.11.17.
@@ -26,7 +27,7 @@ public class Controller {
     private ExecuteRequestAbstract<Quotes> getQuotes;
 
     @RequestMapping(value = "/livequotes")
-    public Map<String,Object> getQuotesLive() {
+    public List<FinancialEntity> getQuotesLive() {
         return null;
     }
 }

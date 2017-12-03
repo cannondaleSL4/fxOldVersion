@@ -23,8 +23,8 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected String MAIN;
     @Value("${currency.myappid}")
     protected String MYAPPID;
-    @Value("${currency.last}")
-    protected String LAST;
+    @Value("${currency.latest}")
+    protected String LATEST;
     @Value("${currency.historical}")
     protected String HISTORICAL;
     @Value("${currency.timeseries}")
