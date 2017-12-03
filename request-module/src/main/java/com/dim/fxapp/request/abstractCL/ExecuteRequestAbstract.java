@@ -94,9 +94,9 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     }
 
-    protected abstract F getQuote(String currencyName);
-    protected abstract List<F> getQuotes();
-    protected abstract List<F> getQuotes(List<String> currenciesNames);
+    public abstract F getQuote(String currencyName);
+    public  abstract List<F> getQuotes();
+    public abstract List<F> getQuotes(List<String> currenciesNames);
 
     public List<Currency> getCurrencyList() {
         return currencyList;

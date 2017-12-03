@@ -23,12 +23,12 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract {
     private HttpGet httpGet;
 
     @Override
-    protected QuotesLive getQuote(String currencyName) {
+    public QuotesLive getQuote(String currencyName) {
         return null;
     }
 
     @Override
-    protected List<QuotesLive> getQuotes() {
+    public List<QuotesLive> getQuotes() {
         httpGet = new HttpGet(MAIN + LATEST + MYAPPID );
 
         try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
@@ -54,7 +54,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract {
     }
 
     @Override
-    protected List<QuotesLive> getQuotes(List currenciesNames) {
+    public List<QuotesLive> getQuotes(List currenciesNames) {
         return null;
     }
 

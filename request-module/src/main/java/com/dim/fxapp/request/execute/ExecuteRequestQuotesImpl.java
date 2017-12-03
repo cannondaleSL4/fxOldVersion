@@ -11,17 +11,17 @@ import java.util.List;
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract {
 
     @Override
-    protected Quotes getQuote(String currencyName) {
+    public Quotes getQuote(String currencyName) {
         return null;
     }
 
     @Override
-    protected List <Quotes> getQuotes() {
+    public List <Quotes> getQuotes() {
         return null;
     }
 
     @Override
-    protected List<Quotes> getQuotes(List currenciesNames) {
+    public List<Quotes> getQuotes(List currenciesNames) {
         return null;
     }
 }

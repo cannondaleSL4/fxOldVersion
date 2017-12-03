@@ -1,6 +1,5 @@
 package com.dim.fxapp.request.controller;
 
-import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
@@ -27,7 +26,7 @@ public class Controller {
     private ExecuteRequestAbstract<Quotes> getQuotes;
 
     @RequestMapping(value = "/livequotes")
-    public List<FinancialEntity> getQuotesLive() {
-        return null;
+    public List<QuotesLive> getQuotesLive() {
+        return getLiveQuotes.getQuotes();
     }
 }
