@@ -3,6 +3,7 @@ package com.dim.fxapp.entity.impl;
 import com.dim.fxapp.entity.FinancialEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.joda.time.DateTime;
+import org.joda.time.Period;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -10,7 +11,6 @@ import java.math.BigDecimal;
 /**
  * Created by dima on 28.11.17.
  */
-
 @Entity
 public class Quotes implements FinancialEntity {
     @Id
@@ -18,25 +18,44 @@ public class Quotes implements FinancialEntity {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "name")
+    @Column(name="name", nullable = false)
     private String name;
 
-    @Column(name = "price")
-    private BigDecimal price;
+    @Column(name="period", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private Period period;
 
     @Column(name = "date")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
     private DateTime datetime;
 
+    @Column(name="open", nullable = false)
+    private BigDecimal open;
+
+    @Column(name="close", nullable = false)
+    private BigDecimal close;
+
+    @Column(name="hight", nullable = false)
+    private BigDecimal hight;
+
+    @Column(name="low", nullable = false)
+    private BigDecimal low;
+
+    public Quotes() {
+    }
+
     public static class Builder {
         private Long id;
         private String name;
-        private BigDecimal price;
-        private DateTime date;
+        private Period period;
+        private BigDecimal open;
+        private BigDecimal close;
+        private BigDecimal hight;
+        private BigDecimal low;
+        private DateTime dateTime;
 
-        public Builder(){
-        }
+        public Builder(){ }
 
         public Builder id(Long id){
             this.id = id;
@@ -48,13 +67,33 @@ public class Quotes implements FinancialEntity {
             return this;
         }
 
-        public Builder price(BigDecimal price){
-            this.price = price;
+        public Builder period(Period period){
+            this.period = period;
             return this;
         }
 
         public Builder date(DateTime date){
-            this.date = date;
+            this.dateTime = dateTime;
+            return this;
+        }
+
+        public Builder open(BigDecimal open) {
+            this.open = open;
+            return this;
+        }
+
+        public Builder close(BigDecimal close) {
+            this.close = close;
+            return this;
+        }
+
+        public Builder hight(BigDecimal hight) {
+            this.hight = hight;
+            return this;
+        }
+
+        public Builder low(BigDecimal low) {
+            this.low = low;
             return this;
         }
 
@@ -63,15 +102,14 @@ public class Quotes implements FinancialEntity {
         }
     }
 
-    public Quotes(){
-
-    }
-
-    private Quotes(Builder quoteBuild) {
-        this.id = quoteBuild.id;
-        this.name = quoteBuild.name;
-        this.datetime = quoteBuild.date;
-        this.price = quoteBuild.price;
+    private Quotes(Builder stockBuild){
+        name = stockBuild.name;
+        period = stockBuild.period;
+        datetime  =stockBuild.dateTime;
+        open = stockBuild.open;
+        close = stockBuild.close;
+        hight = stockBuild.hight;
+        low = stockBuild.low;
     }
 
     public Long getId() {
@@ -86,23 +124,27 @@ public class Quotes implements FinancialEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public BigDecimal getOpen() {
+        return open;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getClose() {
+        return close;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public BigDecimal getHight() {
+        return hight;
     }
 
-    public DateTime getDatetime() {
+    public BigDecimal getLow() {
+        return low;
+    }
+
+    public DateTime getDate() {
         return datetime;
     }
 
-    public void setDatetime(DateTime date) {
-        this.datetime = date;
+    public Period getPeriod() {
+        return period;
     }
 }

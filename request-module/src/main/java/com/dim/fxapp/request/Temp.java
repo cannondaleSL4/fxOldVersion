@@ -1,23 +1,9 @@
-package com.dim.fxapp.request.execute;
+package com.dim.fxapp.request;
 
-import com.dim.fxapp.entity.impl.Quotes;
-import org.apache.http.HttpEntity;
-import org.apache.http.ParseException;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
-public class RequestFromServer {
+public class Temp {
 
     // essential URL structure is built using constants
     public static final String ACCESS_KEY = "96748e760f44176b0ff16b234e204ea1";
@@ -32,7 +18,7 @@ public class RequestFromServer {
 
         HttpGet get = new HttpGet(BASE_URL + ENDPOINT + "?access_key=" + ACCESS_KEY);
 
-        Quotes quotes = new Quotes();
+        QuotesLive quotes = new QuotesLive();
 
         try {
             CloseableHttpResponse response =  httpClient.execute(get);

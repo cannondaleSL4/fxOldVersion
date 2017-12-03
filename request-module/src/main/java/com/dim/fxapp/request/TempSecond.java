@@ -3,25 +3,26 @@ package com.dim.fxapp.request;
 import com.dim.fxapp.entity.FinancialEntity;
 import org.json.JSONObject;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by dima on 30.11.17.
  */
-public abstract class RequestAbstractClass {
+public abstract class TempSecond {
     protected String ACCESS_KEY = "96748e760f44176b0ff16b234e204ea1";
     protected String BASE_URL = "http://apilayer.net/api/";
     protected String ENDPOINT = "live";
     protected String SOURCES = "USD";
     protected JSONObject exchangeRates;
     protected String currencies="";
-    //protected List<String> listOfCurrencies = new ArrayList<String>();
+    protected List<String> listOfCurrencies = new ArrayList<String>();
     protected List<FinancialEntity> listOfResponse = new ArrayList<FinancialEntity>();
     protected List<List<String>> listOfListOfCurrencies = new ArrayList<>();
 
 
-    public RequestAbstractClass(List<String> listOfCurrencies){
+    public TempSecond(List<String> listOfCurrencies){
 
         /*Comparator<String> cmp = new Comparator<String>() {
             @Override

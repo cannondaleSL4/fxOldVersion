@@ -1,22 +1,31 @@
 package com.dim.fxapp.request.controller;
 
-import com.dim.fxapp.entity.Currency;
-import com.dim.fxapp.request.execute.RequestFromServer;
-import com.dim.fxapp.request.execute.RequestQuotesExecute;
+import com.dim.fxapp.entity.impl.Quotes;
+import com.dim.fxapp.entity.impl.QuotesLive;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Arrays;
+import java.util.Map;
 
 /**
  * Created by dima on 18.11.17.
  */
 @RestController
 public class Controller {
-    @RequestMapping(value = "/test")
-    public String home() {
-        RequestQuotesExecute requestQuotesExecute = new RequestQuotesExecute(Arrays.asList(Currency.GBPAUD,Currency.EURUSD,Currency.GBPJPY,Currency.GBPUSD));
 
-        return requestQuotesExecute.getLiveQuotes().toString();
+    @Autowired
+    @Qualifier("LiveQuotes")
+    private ExecuteRequest<QuotesLive> getLiveQuotes;
+
+
+    @Autowired
+    @Qualifier("Quotes")
+    private ExecuteRequest<Quotes> getQuotes;
+
+    @RequestMapping(value = "/livequotes")
+    public Map<String,Object> getQuotesLive() {
+        return null;
     }
 }
