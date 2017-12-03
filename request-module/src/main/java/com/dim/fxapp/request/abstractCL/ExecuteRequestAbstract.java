@@ -34,6 +34,12 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     @Value("${currency.base}")
     protected String BASE;
 
+    /*
+    Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
+    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
+    String formattedDate = dateFormat.format(timeStampDate);
+     */
+
 
     protected List<Currency> currencyList;
     protected List<Request> requestList = new LinkedList<Request>();
