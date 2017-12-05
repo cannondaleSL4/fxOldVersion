@@ -10,6 +10,7 @@ import java.util.Date;
  */
 /*
 i have no any idea what this class for )))
+
  */
 public class Request {
     private String baseCurrency;
