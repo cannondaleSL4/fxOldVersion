@@ -43,7 +43,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
             currencyRequestExeption.printStackTrace();
         }
 
-
         httpGet = new HttpGet(request);
 
         try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
