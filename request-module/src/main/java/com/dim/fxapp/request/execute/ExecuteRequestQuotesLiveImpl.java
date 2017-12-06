@@ -14,19 +14,20 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by dima on 30.11.17.
  */
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
-    static CloseableHttpClient httpClient = HttpClients.createDefault();
+    static CloseableHttpClient httpClient;
     private HttpGet httpGet;
     private Map<String, Object> mapResp; // full response from server
     private Map<String,Double> ratesMap; // only rates map from mapResp
+
+    public ExecuteRequestQuotesLiveImpl(){
+        httpClient = HttpClients.createDefault();
+    }
 
     @Override
     public QuotesLive getQuote(String currencyName) {
@@ -68,15 +69,21 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         List<Request> listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList){
-            request = new Request.Builder()
-                    .name(currency)
+            request = Request.builder()
+                    .currensyName(currency.toString())
+                    .baseCurrency( currency.toString().substring(0,3))
+                    .quoteCurrency( currency.toString().substring(3))
                     .build();
+            request.identifyBase();
             listofRequest.add(request);
         }
+
+        Collections.sort(listofRequest);
 
         for(Request requestInto : listofRequest){
             result.append(requestInto);
         }
+
         result.setLength(result.length() - 1);
         return result.toString();
     }
