@@ -14,7 +14,6 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -65,7 +64,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     public String getStringRequest() throws CurrencyRequestExeption {
-        String result = "";
+        StringBuilder result = new StringBuilder();
+        result.append(MAIN + LATEST + MYAPPID + "&" +SYMBOLS + "=");
         List<Request> listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList){
@@ -75,7 +75,11 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
             listofRequest.add(request);
         }
 
-        
+        for(Request requestInto : listofRequest){
+            result.append(requestInto);
+        }
+        result.setLength(result.length() - 1);
+        return result.toString();
     }
 
     /*private Map<String,Object> parseResponse(){
