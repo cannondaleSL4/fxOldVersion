@@ -54,8 +54,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //return mapResp.containsKey("error") ? mapResp : parseResponse();
-        return mapResp;
+        return mapResp.containsKey("error") ? mapResp : parseResponse();
+        //return mapResp;
     }
 
     @Override
@@ -86,6 +86,11 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
         result.setLength(result.length() - 1);
         return result.toString();
+    }
+
+    public  Map<String,Object> parseResponse(){
+        
+        return mapResp;
     }
 
     /*private Map<String,Object> parseResponse(){
