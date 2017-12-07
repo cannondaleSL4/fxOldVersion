@@ -24,6 +24,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     private HttpGet httpGet;
     private Map<String, Object> mapResp; // full response from server
     private Map<String,Double> ratesMap; // only rates map from mapResp
+    private List<Request> listofRequest;
 
     public ExecuteRequestQuotesLiveImpl(){
         httpClient = HttpClients.createDefault();
@@ -55,7 +56,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
             e.printStackTrace();
         }
         return mapResp.containsKey("error") ? mapResp : parseResponse();
-        //return mapResp;
     }
 
     @Override
@@ -66,11 +66,11 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     public String getStringRequest() throws CurrencyRequestExeption {
         StringBuilder result = new StringBuilder();
         result.append(MAIN + LATEST + MYAPPID + "&" +SYMBOLS + "=");
-        List<Request> listofRequest = new LinkedList<Request>();
+        listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList){
             request = Request.builder()
-                    .currensyName(currency.toString())
+                    .currencyName(currency.toString())
                     .baseCurrency( currency.toString().substring(0,3))
                     .quoteCurrency( currency.toString().substring(3))
                     .build();
@@ -89,7 +89,25 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     public  Map<String,Object> parseResponse(){
-        
+        ratesMap = (Map<String, Double>) mapResp.get("rates");
+        List<Response> listOfResponse = new ArrayList<Response>();
+        for(Request request: listofRequest){
+            if(ratesMap.containsKey(request.getRequestedName())){
+                Response response = Response.builder()
+                        .currencyName(request.getCurrencyName())
+                        .price(ratesMap.get(request.getRequestedName()))
+                        .build();
+                listOfResponse.add(response);
+            }
+        }
+        for(Response response: listOfResponse ){
+            QuotesLive quotesLive = new QuotesLive.Builder()
+                    .name(response.getCurrencyName())
+                    .price(response.getRightPrice())
+                    .build();
+            financialEntities.add(quotesLive);
+        }
+        mapResp.put("rates",financialEntities);
         return mapResp;
     }
 

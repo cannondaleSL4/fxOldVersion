@@ -36,7 +36,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     protected List<Currency> currencyList = Arrays.asList(Currency.values());
     protected List<FinancialEntity> financialEntities = new ArrayList<FinancialEntity>();
-    protected final String mapKey = "finEntity";
+    //protected final String mapKey = "finEntity";
 
     protected List<Request> requestList = new LinkedList<Request>();
     protected Date date;
