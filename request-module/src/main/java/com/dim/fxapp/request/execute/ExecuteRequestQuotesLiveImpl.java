@@ -14,6 +14,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -26,6 +27,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     private Map<String,Double> ratesMap; // only rates map from mapResp
     private List<Request> listofRequest;
 
+    String request = "";
+
     public ExecuteRequestQuotesLiveImpl(){
         httpClient = HttpClients.createDefault();
     }
@@ -37,8 +40,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
     @Override
     public Map<String,Object> getQuotes() {
-
-        String request = "";
         try {
             request = getStringRequest();
         } catch (CurrencyRequestExeption currencyRequestExeption) {
@@ -59,6 +60,21 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     @Override
+    public Map<String, Object> getQuotes(LocalDate... dateArray) {
+        if (dateArray.length != 1){
+            Map<String,Object> response = new HashMap<String,Object>();
+            response.put("error","incorrect date settings please check request format") ;
+            return response;
+        }
+        request = getStringRequest(dateArray[0]);
+
+
+
+        return null;
+    }
+
+
+    @Override
     public Map<String, Object> getQuotes(List<String> currenciesNames) {
         return null;
     }
@@ -73,6 +89,32 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                     .currencyName(currency.toString())
                     .baseCurrency( currency.toString().substring(0,3))
                     .quoteCurrency( currency.toString().substring(3))
+                    .build();
+            request.identifyBase();
+            listofRequest.add(request);
+        }
+
+        Collections.sort(listofRequest);
+
+        for(Request requestInto : listofRequest){
+            result.append(requestInto);
+        }
+
+        result.setLength(result.length() - 1);
+        return result.toString();
+    }
+
+    public String getStringRequest(LocalDate date){
+        StringBuilder result = new StringBuilder();
+        result.append(MAIN + HISTORICAL + date + ".json?" + MYAPPID + "&" + SYMBOLS + "=");
+        listofRequest = new LinkedList<Request>();
+        Request request;
+        for(Currency currency : currencyList) {
+            request = Request.builder()
+                    .currencyName(currency.toString())
+                    .baseCurrency(currency.toString().substring(0, 3))
+                    .quoteCurrency(currency.toString().substring(3))
+                    //.date(date)
                     .build();
             request.identifyBase();
             listofRequest.add(request);
@@ -110,44 +152,4 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         mapResp.put("rates",financialEntities);
         return mapResp;
     }
-
-    /*private Map<String,Object> parseResponse(){
-        List<QuotesLive> liveList = new LinkedList<QuotesLive>();
-        QuotesLive quotesLive;
-        ratesMap = (Map<String, Double>) mapResp.get("rates");
-        for(Currency currency : currencyList){
-            if (ratesMap.containsKey(currency.toString().substring(0,3))){
-                addToEntityList(currency);
-            }
-        }
-        mapResp.put(mapKey,financialEntities);
-        return mapResp;
-    }
-
-    private void addToEntityList(Currency currency){
-        QuotesLive quotesLive;
-        BigDecimal norevert = new BigDecimal(ratesMap.get(currency.toString()
-                .substring(0,3)));
-        quotesLive = new QuotesLive.Builder()
-                .name(currency.toString())
-                //.price(BigDecimal.ONE.divide(norevert,4,RoundingMode.HALF_UP))
-                .build();
-        //new BigDecimal()norevert.compareTo(BigDecimal.TEN) > 0
-        financialEntities.add(quotesLive);
-    }
-
-    private String getStringRequest(){
-        String str = MAIN + LATEST + MYAPPID +"&" + SYMBOLS + "=" ;
-
-        StringBuilder response = new StringBuilder();
-        for(Currency currency : currencyList){
-            response.append(currency.toString().substring(0,3) + ",");
-        }
-
-        response.setLength(response.length() - 1);
-
-        return str + response.toString();
-    }*/
-
-
 }

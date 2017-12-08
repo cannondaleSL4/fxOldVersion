@@ -5,6 +5,7 @@ import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.request.execute.Request;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.time.LocalDate;
 import java.util.*;
 
 /**
@@ -39,9 +40,9 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     //protected final String mapKey = "finEntity";
 
     protected List<Request> requestList = new LinkedList<Request>();
-    protected Date date;
-    protected Date from;
-    protected Date to;
+    protected LocalDate date;
+    protected LocalDate from;
+    protected LocalDate to;
 
 
     protected static abstract class Builder <T extends ExecuteRequestAbstract, B extends Builder<T,B>> {
@@ -51,9 +52,9 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
         //List<Currency> currencyList = new LinkedList<Currency>(Arrays.asList(Currency.values()));
         List<Request> requestList = new LinkedList<Request>();
-        Date date;
-        Date from;
-        Date to;
+        LocalDate date;
+        LocalDate from;
+        LocalDate to;
 
         public Builder(){
             obj = createObj();
@@ -69,17 +70,17 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
             return thisObj;
         }
 
-        public B date (Date date){
+        public B date (LocalDate date){
             this.date = date;
             return thisObj;
         }
 
-        public B dateFrom(Date from){
+        public B dateFrom(LocalDate from){
             this.from = from;
             return thisObj;
         }
 
-        public B dateTo(Date to){
+        public B dateTo(LocalDate to){
             this.to = to;
             return thisObj;
         }
@@ -91,6 +92,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     public abstract F getQuote(String currencyName);
     public  abstract Map<String,Object> getQuotes();
+    public  abstract Map<String,Object> getQuotes(LocalDate...date);
     public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
 
     public List<Currency> getCurrencyList() {
@@ -109,34 +111,27 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         this.requestList = requestList;
     }
 
-    public Date getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
-    public Date getFrom() {
+    public LocalDate getFrom() {
         return from;
     }
 
-    public void setFrom(Date from) {
+    public void setFrom(LocalDate from) {
         this.from = from;
     }
 
-    public Date getTo() {
+    public LocalDate getTo() {
         return to;
     }
 
-    public void setTo(Date to) {
+    public void setTo(LocalDate to) {
         this.to = to;
     }
 }
-
-
-/*
-    Date timeStampDate = new Date((long)(exchangeRates.getLong("timestamp")*1000));
-    DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss a");
-    String formattedDate = dateFormat.format(timeStampDate);
-     */
