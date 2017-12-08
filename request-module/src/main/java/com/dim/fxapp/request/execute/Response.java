@@ -6,6 +6,7 @@ import lombok.Getter;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
 
 
 @Builder
@@ -17,6 +18,9 @@ public class Response {
     private String quoteCurrency;
     private Double price;
     private String base;
+    private LocalDate date;
+    private LocalDate from;
+    private LocalDate to;
 
     public BigDecimal getRightPrice(){
         BigDecimal temp = new BigDecimal(price);

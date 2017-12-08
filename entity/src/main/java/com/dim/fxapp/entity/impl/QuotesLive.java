@@ -2,7 +2,7 @@ package com.dim.fxapp.entity.impl;
 
 import com.dim.fxapp.entity.FinancialEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -29,13 +29,13 @@ public class QuotesLive implements FinancialEntity {
     @Column(name = "date")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private DateTime datetime;
+    private LocalDate LocalDate;
 
     public static class Builder {
         private Long id;
         private String name;
         private BigDecimal price;
-        private DateTime date;
+        private LocalDate date;
 
         public Builder(){
         }
@@ -55,7 +55,7 @@ public class QuotesLive implements FinancialEntity {
             return this;
         }
 
-        public Builder date(DateTime date){
+        public Builder date(LocalDate date){
             this.date = date;
             return this;
         }
@@ -72,7 +72,7 @@ public class QuotesLive implements FinancialEntity {
     private QuotesLive(Builder quoteBuild) {
         this.id = quoteBuild.id;
         this.name = quoteBuild.name;
-        this.datetime = quoteBuild.date;
+        this.LocalDate = quoteBuild.date;
         this.price = quoteBuild.price;
     }
 
@@ -100,11 +100,11 @@ public class QuotesLive implements FinancialEntity {
         this.price = price;
     }
 
-    public DateTime getDatetime() {
-        return datetime;
+    public LocalDate getLocalDate() {
+        return LocalDate;
     }
 
-    public void setDatetime(DateTime date) {
-        this.datetime = date;
+    public void setLocalDate(LocalDate date) {
+        this.LocalDate = date;
     }
 }

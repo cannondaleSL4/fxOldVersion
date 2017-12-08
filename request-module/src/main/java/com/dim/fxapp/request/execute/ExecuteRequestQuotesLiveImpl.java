@@ -21,17 +21,12 @@ import java.util.*;
  * Created by dima on 30.11.17.
  */
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
-    static CloseableHttpClient httpClient;
+    static CloseableHttpClient httpClient = HttpClients.createDefault();
     private HttpGet httpGet;
     private Map<String, Object> mapResp; // full response from server
     private Map<String,Double> ratesMap; // only rates map from mapResp
     private List<Request> listofRequest;
 
-    String request = "";
-
-    public ExecuteRequestQuotesLiveImpl(){
-        httpClient = HttpClients.createDefault();
-    }
 
     @Override
     public QuotesLive getQuote(String currencyName) {
@@ -40,22 +35,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
     @Override
     public Map<String,Object> getQuotes() {
-        try {
-            request = getStringRequest();
-        } catch (CurrencyRequestExeption currencyRequestExeption) {
-            currencyRequestExeption.printStackTrace();
-        }
-
-        httpGet = new HttpGet(request);
-
-        try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
-            HttpEntity entity = response.getEntity();
-            mapResp = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String request = getStringRequest();
+        mapResp = getServerResponse(request);
         return mapResp.containsKey("error") ? mapResp : parseResponse();
     }
 
@@ -66,11 +47,26 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
             response.put("error","incorrect date settings please check request format") ;
             return response;
         }
-        request = getStringRequest(dateArray[0]);
+        String request = getStringRequest(dateArray[0]);
 
+        mapResp = getServerResponse(request);
 
+        return mapResp.containsKey("error") ? mapResp : parseResponse();
+    }
 
-        return null;
+    @Override
+    public Map<String,Object> getServerResponse(String strRequest){
+        Map<String, Object> local = new HashMap<String,Object>();
+        httpGet = new HttpGet(strRequest);
+        try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
+            HttpEntity entity = response.getEntity();
+            local = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return local;
     }
 
 
@@ -79,7 +75,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         return null;
     }
 
-    public String getStringRequest() throws CurrencyRequestExeption {
+    public String getStringRequest(){
         StringBuilder result = new StringBuilder();
         result.append(MAIN + LATEST + MYAPPID + "&" +SYMBOLS + "=");
         listofRequest = new LinkedList<Request>();
@@ -138,6 +134,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                 Response response = Response.builder()
                         .currencyName(request.getCurrencyName())
                         .price(ratesMap.get(request.getRequestedName()))
+                        .date(request.getDate())
                         .build();
                 listOfResponse.add(response);
             }

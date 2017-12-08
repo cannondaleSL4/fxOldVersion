@@ -14,7 +14,7 @@ currency:
   main : https://openexchangerates.org/api/
   myappid: app_id=fde14524a8444f7390f3b18580348cf9
   latest: latest.json?
-  historical: historical/*.json
+  historical: historical/
   timeseries: time-series.json
   ohlc: ohlc.json
   symbols: symbols

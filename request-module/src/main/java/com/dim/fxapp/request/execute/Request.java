@@ -10,11 +10,10 @@ import java.util.Set;
  * Created by dima on 02.12.17.
  */
 @Builder
+@Getter
 @EqualsAndHashCode
 public class Request implements Comparable<Request> {
-    @Getter
     private String currencyName;
-    @Getter
     private String requestedName;
     private String baseCurrency;
     private String quoteCurrency;

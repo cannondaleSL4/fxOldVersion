@@ -91,9 +91,11 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public abstract F getQuote(String currencyName);
+    public abstract Map<String,Object> getServerResponse(String strRequest);
     public  abstract Map<String,Object> getQuotes();
     public  abstract Map<String,Object> getQuotes(LocalDate...date);
     public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
+
 
     public List<Currency> getCurrencyList() {
         return currencyList;

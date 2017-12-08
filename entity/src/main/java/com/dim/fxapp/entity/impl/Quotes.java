@@ -1,12 +1,13 @@
 package com.dim.fxapp.entity.impl;
 
 import com.dim.fxapp.entity.FinancialEntity;
+import com.dim.fxapp.entity.enums.Period;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.joda.time.DateTime;
-import org.joda.time.Period;
+
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.time.LocalDate;
 
 /**
  * Created by dima on 28.11.17.
@@ -28,7 +29,7 @@ public class Quotes implements FinancialEntity {
     @Column(name = "date")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private DateTime datetime;
+    private LocalDate datetime;
 
     @Column(name="open", nullable = false)
     private BigDecimal open;
@@ -53,7 +54,7 @@ public class Quotes implements FinancialEntity {
         private BigDecimal close;
         private BigDecimal hight;
         private BigDecimal low;
-        private DateTime dateTime;
+        private LocalDate dateTime;
 
         public Builder(){ }
 
@@ -72,7 +73,7 @@ public class Quotes implements FinancialEntity {
             return this;
         }
 
-        public Builder date(DateTime date){
+        public Builder date(LocalDate date){
             this.dateTime = dateTime;
             return this;
         }
@@ -140,7 +141,7 @@ public class Quotes implements FinancialEntity {
         return low;
     }
 
-    public DateTime getDate() {
+    public LocalDate getDate() {
         return datetime;
     }
 
