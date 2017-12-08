@@ -2,12 +2,13 @@ package com.dim.fxapp.entity.impl;
 
 import com.dim.fxapp.entity.FinancialEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import org.joda.time.LocalDate;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
+import java.time.LocalDate;
 
 /**
  * Created by dima on 28.11.17.
@@ -29,7 +30,7 @@ public class QuotesLive implements FinancialEntity {
     @Column(name = "date")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDate LocalDate;
+    private LocalDate localDate;
 
     public static class Builder {
         private Long id;
@@ -72,7 +73,7 @@ public class QuotesLive implements FinancialEntity {
     private QuotesLive(Builder quoteBuild) {
         this.id = quoteBuild.id;
         this.name = quoteBuild.name;
-        this.LocalDate = quoteBuild.date;
+        this.localDate = quoteBuild.date;
         this.price = quoteBuild.price;
     }
 
@@ -101,10 +102,10 @@ public class QuotesLive implements FinancialEntity {
     }
 
     public LocalDate getLocalDate() {
-        return LocalDate;
+        return localDate;
     }
 
     public void setLocalDate(LocalDate date) {
-        this.LocalDate = date;
+        this.localDate = date;
     }
 }

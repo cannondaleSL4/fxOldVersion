@@ -8,11 +8,10 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 
-
+@Getter
 @Builder
 @EqualsAndHashCode
 public class Response {
-    @Getter
     private String currencyName;
     private String baseCurrency;
     private String quoteCurrency;

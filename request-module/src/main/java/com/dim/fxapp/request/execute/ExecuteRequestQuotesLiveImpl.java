@@ -3,7 +3,6 @@ package com.dim.fxapp.request.execute;
 import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
-import com.dim.fxapp.request.exeption.CurrencyRequestExeption;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -110,7 +109,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                     .currencyName(currency.toString())
                     .baseCurrency(currency.toString().substring(0, 3))
                     .quoteCurrency(currency.toString().substring(3))
-                    //.date(date)
+                    .date(date)
                     .build();
             request.identifyBase();
             listofRequest.add(request);
@@ -143,6 +142,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
             QuotesLive quotesLive = new QuotesLive.Builder()
                     .name(response.getCurrencyName())
                     .price(response.getRightPrice())
+                    .date(response.getDate())
                     .build();
             financialEntities.add(quotesLive);
         }
