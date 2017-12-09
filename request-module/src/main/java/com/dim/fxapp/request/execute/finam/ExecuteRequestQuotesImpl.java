@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 /**
- * Created by dima on 29.11.17.
+ * Created by dima on 29.11.17
  */
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
