@@ -18,11 +18,6 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract {
     }
 
     @Override
-    public Map<String, Object> getServerResponse(String strRequest) {
-        return null;
-    }
-
-    @Override
     public Map<String,Object> getQuotes() {
         return null;
     }

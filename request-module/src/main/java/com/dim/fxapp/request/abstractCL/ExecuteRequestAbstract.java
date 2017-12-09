@@ -3,8 +3,17 @@ package com.dim.fxapp.request.abstractCL;
 import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.request.execute.Request;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.*;
 
@@ -35,9 +44,11 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     @Value("${currency.base}")
     protected String BASE;
 
+    protected static CloseableHttpClient httpClient = HttpClients.createDefault();
+    protected HttpGet httpGet;
+
     protected List<Currency> currencyList = Arrays.asList(Currency.values());
     protected List<FinancialEntity> financialEntities = new ArrayList<FinancialEntity>();
-    //protected final String mapKey = "finEntity";
 
     protected List<Request> requestList = new LinkedList<Request>();
     protected LocalDate date;
@@ -50,7 +61,6 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         private T obj;
         private B thisObj;
 
-        //List<Currency> currencyList = new LinkedList<Currency>(Arrays.asList(Currency.values()));
         List<Request> requestList = new LinkedList<Request>();
         LocalDate date;
         LocalDate from;
@@ -91,10 +101,24 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public abstract F getQuote(String currencyName);
-    public abstract Map<String,Object> getServerResponse(String strRequest);
+    //public abstract Map<String,Object> getServerResponse(String strRequest);
     public  abstract Map<String,Object> getQuotes();
     public  abstract Map<String,Object> getQuotes(LocalDate...date);
     public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
+
+    public Map<String,Object> getServerResponse(String strRequest){
+        Map<String, Object> local = new HashMap<String,Object>();
+        httpGet = new HttpGet(strRequest);
+        try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
+            HttpEntity entity = response.getEntity();
+            local = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+        } catch (ClientProtocolException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return local;
+    }
 
 
     public List<Currency> getCurrencyList() {
