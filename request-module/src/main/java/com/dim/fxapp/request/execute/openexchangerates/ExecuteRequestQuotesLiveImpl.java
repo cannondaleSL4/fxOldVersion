@@ -1,8 +1,10 @@
-package com.dim.fxapp.request.execute;
+package com.dim.fxapp.request.execute.openexchangerates;
 
 import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
+import com.dim.fxapp.request.execute.Request;
+import com.dim.fxapp.request.execute.Response;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -76,7 +78,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     @Override
     public String getStringRequest(LocalDateTime... date){
         StringBuilder result = new StringBuilder();
-        result.append(MAIN + HISTORICAL + date[0].toLocalDate() + ".json?" + MYAPPID + "&" + SYMBOLS + "=");
+        result.append(MAIN + HISTORICAL + date[0].toLocalDate() + ".json?" + MYAPPID + "&" + SYMBOLS + "=");//format(DateTimeFormatter.ISO_DATE_TIME)
         listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList) {

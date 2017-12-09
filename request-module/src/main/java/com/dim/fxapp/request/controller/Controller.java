@@ -57,6 +57,18 @@ public class Controller {
         return getQuotes.getQuotes(fromDate,toDate);
     }
 
+    //если не указанно ДО - то считать это ДО Сейчас.
+    @RequestMapping(value = "/history/{from}", method = RequestMethod.GET)
+    public Map<String,Object> getHistory(@PathVariable("from") String from){
+        dateFirst = getArrayList(from);
+
+        // int year, int month, int dayOfMonth int hours int minutes
+        LocalDateTime fromDate = LocalDateTime.of(dateFirst.get(0),dateFirst.get(1),dateFirst.get(2),dateFirst.get(3),dateFirst.get(4));
+        LocalDateTime toDate = LocalDateTime.now();
+
+        return getQuotes.getQuotes(fromDate,toDate);
+    }
+
     // надо проставить значения для часов и минут, если была обозначенна только дата
     private List<Integer> getArrayList(String date){
         List<Integer> list = Arrays.asList(date.split("-"))
