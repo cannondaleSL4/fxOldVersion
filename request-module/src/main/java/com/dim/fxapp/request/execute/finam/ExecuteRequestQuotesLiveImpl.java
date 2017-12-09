@@ -1,4 +1,4 @@
-package com.dim.fxapp.request.execute.openexchangerates;
+package com.dim.fxapp.request.execute.finam;
 
 import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.QuotesLive;

@@ -11,7 +11,7 @@ eureka:
       defaultZone: http://127.0.0.1:8761/eureka/
 
 currency:
-  main : https://openexchangerates.org/api/
+  main : https://finam.org/api/
   myappid: app_id=fde14524a8444f7390f3b18580348cf9
   latest: latest.json?
   historical: historical/

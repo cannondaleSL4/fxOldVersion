@@ -1,4 +1,4 @@
-package com.dim.fxapp.request.execute.openexchangerates;
+package com.dim.fxapp.request.execute.finam;
 
 import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.Quotes;
@@ -8,11 +8,6 @@ import com.dim.fxapp.request.execute.Request;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-// https://docs.openexchangerates.org/
-/*
-получение котировок в формате ohlc оказалось платным, пришлось перейти на другой сайт. там увы ohlc нет тоже но там проще получать и работать с историей.
-перешел на сайт http://currencies.apps.grandtrunk.net/
- */
 /**
  * Created by dima on 29.11.17.
  */
