@@ -3,6 +3,7 @@ package com.dim.fxapp.entity.impl;
 import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.enums.Period;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Quotes implements FinancialEntity {
     @Id
     @GeneratedValue
     @Column(name = "id")
+    @JsonIgnore
     private Long id;
 
     @Column(name="name", nullable = false)
@@ -28,8 +30,8 @@ public class Quotes implements FinancialEntity {
 
     @Column(name = "date")
     @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
-    private LocalDate datetime;
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
+    private LocalDate date;
 
     @Column(name="open", nullable = false)
     private BigDecimal open;
@@ -54,7 +56,7 @@ public class Quotes implements FinancialEntity {
         private BigDecimal close;
         private BigDecimal hight;
         private BigDecimal low;
-        private LocalDate dateTime;
+        private LocalDate date;
 
         public Builder(){ }
 
@@ -74,7 +76,7 @@ public class Quotes implements FinancialEntity {
         }
 
         public Builder date(LocalDate date){
-            this.dateTime = dateTime;
+            this.date = this.date;
             return this;
         }
 
@@ -106,7 +108,7 @@ public class Quotes implements FinancialEntity {
     private Quotes(Builder stockBuild){
         name = stockBuild.name;
         period = stockBuild.period;
-        datetime  =stockBuild.dateTime;
+        date =stockBuild.date;
         open = stockBuild.open;
         close = stockBuild.close;
         hight = stockBuild.hight;
@@ -142,7 +144,7 @@ public class Quotes implements FinancialEntity {
     }
 
     public LocalDate getDate() {
-        return datetime;
+        return date;
     }
 
     public Period getPeriod() {

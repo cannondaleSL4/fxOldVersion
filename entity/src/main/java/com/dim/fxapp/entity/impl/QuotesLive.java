@@ -2,6 +2,7 @@ package com.dim.fxapp.entity.impl;
 
 import com.dim.fxapp.entity.FinancialEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ public class QuotesLive implements FinancialEntity {
     @Id
     @GeneratedValue
     @Column(name = "id")
+    @JsonIgnore
     private Long id;
 
     @Column(name = "name")
@@ -29,7 +31,7 @@ public class QuotesLive implements FinancialEntity {
 
     @Column(name = "date")
     @JsonFormat
-            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy hh:mm:ss")
+            (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private LocalDate localDate;
 
     public static class Builder {

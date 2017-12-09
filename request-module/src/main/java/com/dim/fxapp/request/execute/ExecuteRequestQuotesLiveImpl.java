@@ -138,6 +138,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                 listOfResponse.add(response);
             }
         }
+        //TODO рассмотреть возможность убрать Response вообще убрать ))
         for(Response response: listOfResponse ){
             QuotesLive quotesLive = new QuotesLive.Builder()
                     .name(response.getCurrencyName())
