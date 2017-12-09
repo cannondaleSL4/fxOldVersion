@@ -10,15 +10,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Map;
+import java.time.LocalDateTime;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Created by dima on 18.11.17.
  */
 @RestController
 public class Controller {
+    private List<Integer> dateFirst;
+    private List<Integer> dateSecond;
 
     @Autowired
     @Qualifier("LiveQuotes")
@@ -36,22 +38,36 @@ public class Controller {
 
     @RequestMapping(value ="/quotes/{date}", method = RequestMethod.GET)
     public Map<String,Object> getQuotesDate(@PathVariable("date")String date){
-        int [] dateInt = Arrays.asList(date.split("-")).stream().mapToInt(Integer::parseInt).toArray();
-        return getLiveQuotes.getQuotes(LocalDate.of(dateInt[0],dateInt[1],dateInt[2]));
+
+        dateFirst = getArrayList(date);
+
+        return getLiveQuotes.getQuotes(LocalDateTime.of(dateFirst.get(0), dateFirst.get(1), dateFirst.get(2), dateFirst.get(3), dateFirst.get(4)));
     }
 
     @RequestMapping(value = "/history/{from}/{to}", method = RequestMethod.GET)
     public Map<String,Object> getHistory(@PathVariable("from") String from,
                                          @PathVariable("to") String to){
+        dateFirst = getArrayList(from);
+        dateSecond = getArrayList(to);
 
-        int [] fromInt = Arrays.asList(from.split("-")).stream().mapToInt(Integer::parseInt).toArray();
-        int [] toInt = Arrays.asList(from.split("-")).stream().mapToInt(Integer::parseInt).toArray();
-
-        // int year, int month, int dayOfMonth
-
-        LocalDate fromDate = LocalDate.of(fromInt[0],fromInt[1],fromInt[2]);
-        LocalDate toDate = LocalDate.of(toInt[0],toInt[1],toInt[2]);
+        // int year, int month, int dayOfMonth int hours int minutes
+        LocalDateTime fromDate = LocalDateTime.of(dateFirst.get(0),dateFirst.get(1),dateFirst.get(2),dateFirst.get(3),dateFirst.get(4));
+        LocalDateTime toDate = LocalDateTime.of(dateSecond.get(0),dateSecond.get(1),dateSecond.get(2),dateSecond.get(4),dateSecond.get(5));
 
         return getQuotes.getQuotes(fromDate,toDate);
+    }
+
+    // надо проставить значения для часов и минут, если была обозначенна только дата
+    private List<Integer> getArrayList(String date){
+        List<Integer> list = Arrays.asList(date.split("-"))
+                .stream()
+                .mapToInt(Integer::parseInt)
+                .boxed()
+                .collect(Collectors.toList());
+        if(list.size() == 3){
+            list.add(3,0);
+            list.add(4,0);
+        }
+        return list;
     }
 }

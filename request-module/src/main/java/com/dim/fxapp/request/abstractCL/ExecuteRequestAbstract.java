@@ -14,7 +14,7 @@ import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -43,6 +43,10 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected String SYMBOLS;
     @Value("${currency.base}")
     protected String BASE;
+    @Value("${currency.start}")
+    protected String START;
+    @Value("${currency.end}")
+    protected String END;
 
     protected static CloseableHttpClient httpClient = HttpClients.createDefault();
     protected HttpGet httpGet;
@@ -51,9 +55,10 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected List<FinancialEntity> financialEntities = new ArrayList<FinancialEntity>();
 
     protected List<Request> requestList = new LinkedList<Request>();
-    protected LocalDate date;
-    protected LocalDate from;
-    protected LocalDate to;
+    protected List<Request> listofRequest;
+    protected LocalDateTime date;
+    protected LocalDateTime from;
+    protected LocalDateTime to;
 
 
     protected static abstract class Builder <T extends ExecuteRequestAbstract, B extends Builder<T,B>> {
@@ -62,9 +67,9 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         private B thisObj;
 
         List<Request> requestList = new LinkedList<Request>();
-        LocalDate date;
-        LocalDate from;
-        LocalDate to;
+        LocalDateTime date;
+        LocalDateTime from;
+        LocalDateTime to;
 
         public Builder(){
             obj = createObj();
@@ -80,17 +85,17 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
             return thisObj;
         }
 
-        public B date (LocalDate date){
+        public B date (LocalDateTime date){
             this.date = date;
             return thisObj;
         }
 
-        public B dateFrom(LocalDate from){
+        public B dateFrom(LocalDateTime from){
             this.from = from;
             return thisObj;
         }
 
-        public B dateTo(LocalDate to){
+        public B dateTo(LocalDateTime to){
             this.to = to;
             return thisObj;
         }
@@ -101,9 +106,9 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public abstract F getQuote(String currencyName);
-    //public abstract Map<String,Object> getServerResponse(String strRequest);
-    public  abstract Map<String,Object> getQuotes();
-    public  abstract Map<String,Object> getQuotes(LocalDate...date);
+    public abstract String getStringRequest (LocalDateTime... dateArray);
+    public abstract Map<String,Object> getQuotes();
+    public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray);
     public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
 
     public Map<String,Object> getServerResponse(String strRequest){
@@ -137,27 +142,27 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         this.requestList = requestList;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(LocalDateTime date) {
         this.date = date;
     }
 
-    public LocalDate getFrom() {
+    public LocalDateTime getFrom() {
         return from;
     }
 
-    public void setFrom(LocalDate from) {
+    public void setFrom(LocalDateTime from) {
         this.from = from;
     }
 
-    public LocalDate getTo() {
+    public LocalDateTime getTo() {
         return to;
     }
 
-    public void setTo(LocalDate to) {
+    public void setTo(LocalDateTime to) {
         this.to = to;
     }
 }

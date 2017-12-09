@@ -4,7 +4,7 @@ import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -13,7 +13,6 @@ import java.util.*;
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
     private Map<String, Object> mapResp; // full response from server
     private Map<String,Double> ratesMap; // only rates map from mapResp
-    private List<Request> listofRequest;
 
 
     @Override
@@ -29,7 +28,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     @Override
-    public Map<String, Object> getQuotes(LocalDate... dateArray) {
+    public Map<String, Object> getQuotes(LocalDateTime... dateArray) {
         if (dateArray.length != 1){
             Map<String,Object> response = new HashMap<String,Object>();
             response.put("error","incorrect date settings please check request format") ;
@@ -74,9 +73,10 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         return result.toString();
     }
 
-    public String getStringRequest(LocalDate date){
+    @Override
+    public String getStringRequest(LocalDateTime... date){
         StringBuilder result = new StringBuilder();
-        result.append(MAIN + HISTORICAL + date + ".json?" + MYAPPID + "&" + SYMBOLS + "=");
+        result.append(MAIN + HISTORICAL + date[0].toLocalDate() + ".json?" + MYAPPID + "&" + SYMBOLS + "=");
         listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList) {
@@ -84,7 +84,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                     .currencyName(currency.toString())
                     .baseCurrency(currency.toString().substring(0, 3))
                     .quoteCurrency(currency.toString().substring(3))
-                    .date(date)
+                    .date(date[0])
                     .build();
             request.identifyBase();
             listofRequest.add(request);

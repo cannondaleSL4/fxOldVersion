@@ -2,7 +2,7 @@ package com.dim.fxapp.request.execute;
 
 import lombok.*;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,9 +19,9 @@ public class Request implements Comparable<Request> {
     private String quoteCurrency;
     @Builder.Default
     private String base = "USD" ;
-    private LocalDate date;
-    private LocalDate from;
-    private LocalDate to;
+    private LocalDateTime date;
+    private LocalDateTime from;
+    private LocalDateTime to;
     /*
     по размеру Set<String> setofBases можно будет узнавать сколько запросов надо будет слать если можно будет изменять base
     т.е. AUDUSD и AUDJPY это двумя разными запросами, тк. AUDUSD у них храниться как фактически USDAUD

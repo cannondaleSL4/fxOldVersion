@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by dima on 28.11.17.
@@ -31,7 +31,7 @@ public class Quotes implements FinancialEntity {
     @Column(name = "date")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate date;
+    private LocalDateTime date;
 
     @Column(name="open", nullable = false)
     private BigDecimal open;
@@ -56,7 +56,7 @@ public class Quotes implements FinancialEntity {
         private BigDecimal close;
         private BigDecimal hight;
         private BigDecimal low;
-        private LocalDate date;
+        private LocalDateTime date;
 
         public Builder(){ }
 
@@ -75,7 +75,7 @@ public class Quotes implements FinancialEntity {
             return this;
         }
 
-        public Builder date(LocalDate date){
+        public Builder date(LocalDateTime date){
             this.date = this.date;
             return this;
         }
@@ -143,7 +143,7 @@ public class Quotes implements FinancialEntity {
         return low;
     }
 
-    public LocalDate getDate() {
+    public LocalDateTime getDate() {
         return date;
     }
 

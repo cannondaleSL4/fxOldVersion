@@ -9,7 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * Created by dima on 28.11.17.
@@ -32,13 +32,13 @@ public class QuotesLive implements FinancialEntity {
     @Column(name = "date")
     @JsonFormat
             (shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
-    private LocalDate localDate;
+    private LocalDateTime localDateTime;
 
     public static class Builder {
         private Long id;
         private String name;
         private BigDecimal price;
-        private LocalDate date;
+        private LocalDateTime date;
 
         public Builder(){
         }
@@ -58,7 +58,7 @@ public class QuotesLive implements FinancialEntity {
             return this;
         }
 
-        public Builder date(LocalDate date){
+        public Builder date(LocalDateTime date){
             this.date = date;
             return this;
         }
@@ -75,7 +75,7 @@ public class QuotesLive implements FinancialEntity {
     private QuotesLive(Builder quoteBuild) {
         this.id = quoteBuild.id;
         this.name = quoteBuild.name;
-        this.localDate = quoteBuild.date;
+        this.localDateTime = quoteBuild.date;
         this.price = quoteBuild.price;
     }
 
@@ -103,11 +103,11 @@ public class QuotesLive implements FinancialEntity {
         this.price = price;
     }
 
-    public LocalDate getLocalDate() {
-        return localDate;
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 
-    public void setLocalDate(LocalDate date) {
-        this.localDate = date;
+    public void setLocalDateTime(LocalDateTime date) {
+        this.localDateTime = date;
     }
 }
