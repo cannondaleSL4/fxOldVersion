@@ -9,6 +9,10 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 // https://docs.openexchangerates.org/
+/*
+получение котировок в формате ohlc оказалось платным, пришлось перейти на другой сайт. там увы ohlc нет тоже но там проще получать и работать с историей.
+перешел на сайт http://currencies.apps.grandtrunk.net/
+ */
 /**
  * Created by dima on 29.11.17.
  */
