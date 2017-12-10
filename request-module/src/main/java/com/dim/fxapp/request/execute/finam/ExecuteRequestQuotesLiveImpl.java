@@ -42,10 +42,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
         return mapResp.containsKey("error") ? mapResp : parseResponse();
     }
-    @Override
-    public Map<String, Object> getQuotes(List<String> currenciesNames) {
-        return null;
-    }
+
 
     public List<String> getStringRequest(){
         List<String> listOfStringRequest = new ArrayList<>();

@@ -109,7 +109,6 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     public abstract List<String> getStringRequest (LocalDateTime... dateArray);
     public abstract Map<String,Object> getQuotes();
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray);
-    public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
 
     public Map<String,Object> getServerResponse(List<String> strRequest){
         Map<String, Object> local = new HashMap<String,Object>();

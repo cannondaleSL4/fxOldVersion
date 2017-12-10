@@ -69,8 +69,4 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         return null;
     }
 
-    @Override
-    public Map<String,Object> getQuotes(List currenciesNames) {
-        return null;
-    }
 }
