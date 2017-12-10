@@ -22,11 +22,12 @@ public class Request implements Comparable<Request> {
     private LocalDateTime date;
     private LocalDateTime from;
     private LocalDateTime to;
+    private static Set<String> setofBases = new HashSet<>();
     /*
     по размеру Set<String> setofBases можно будет узнавать сколько запросов надо будет слать если можно будет изменять base
     т.е. AUDUSD и AUDJPY это двумя разными запросами, тк. AUDUSD у них храниться как фактически USDAUD
      */
-    private  static Set<String> setofBases = new HashSet<>();
+
 
 
     public void identifyBase(){
@@ -44,9 +45,14 @@ public class Request implements Comparable<Request> {
 
     @Override
     public int compareTo(Request another) {
+
         if (this.base.equals(another.base))return 0 ;
 
-        if (this.base.equals("USD")) return 10; //first we will take USD
+        if (another.base.equals("USD") &&
+                !this.base.equals("USD")) return 1; //first we will take USD
+
+        if (!another.base.equals("USD") &&
+                this.base.equals("USD")) return -1; //first we will take USD
 
         return this.base.compareTo(another.base); // sorting currency like string
     }

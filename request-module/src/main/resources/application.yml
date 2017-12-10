@@ -10,14 +10,19 @@ eureka:
     serviceUrl:
       defaultZone: http://127.0.0.1:8761/eureka/
 
+#currency:
+#  main : https://finam.org/api/
+#  myappid: app_id=fde14524a8444f7390f3b18580348cf9
+#  latest: latest.json?
+#  historical: historical/
+#  timeseries: time-series.json
+#  ohlc: ohlc.json?
+#  symbols: symbols
+#  base: &base
+#  start: start_time
+#  end: end_time
+
 currency:
-  main : https://finam.org/api/
-  myappid: app_id=fde14524a8444f7390f3b18580348cf9
-  latest: latest.json?
-  historical: historical/
-  timeseries: time-series.json
-  ohlc: ohlc.json?
-  symbols: symbols
-  base: &base
-  start: start_time
-  end: end_time
+  main : https://api.fixer.io/latest?base=%s&symbols=%s
+  #symbols: symbols
+  #base: base

@@ -15,22 +15,24 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
     @Override
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) {
+        List<String>request = new ArrayList<>();
         if (dateArray.length != 2){
             Map<String,Object> response = new HashMap<String,Object>();
             response.put("error","incorrect date settings please check request format") ;
             return response;
         }
 
-        String request = getStringRequest(dateArray[0],dateArray[1]);
+        request = getStringRequest(dateArray[0],dateArray[1]);
         return null;
     }
 
     @Override
-    public String getStringRequest(LocalDateTime... dateArray) {
+    public List<String> getStringRequest(LocalDateTime... dateArray) {
+        List<String> resultList = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         StringBuilder result = new StringBuilder();
-        result.append(MAIN + OHLC + MYAPPID + "&" + START + "="+ dateArray[0].format(DateTimeFormatter.ISO_DATE_TIME) + "&" + END + "=" + dateArray[1].format(DateTimeFormatter.ISO_DATE_TIME) +
-                  SYMBOLS + "=");
+        result.append(MAIN + "="+ dateArray[0].format(DateTimeFormatter.ISO_DATE_TIME) + "&" +  "=" + dateArray[1].format(DateTimeFormatter.ISO_DATE_TIME) +
+                   "=");
         listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList){
@@ -47,12 +49,13 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
         Collections.sort(listofRequest);
 
+
         for(Request requestInto : listofRequest){
             result.append(requestInto);
         }
 
         result.setLength(result.length() - 1);
-        return result.toString();
+        return resultList;
     }
 
     @Override

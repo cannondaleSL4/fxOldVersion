@@ -24,8 +24,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
     @Override
     public Map<String,Object> getQuotes() {
-        String request = getStringRequest();
-        mapResp = getServerResponse(request);
+        List<String> requests = getStringRequest();
+        mapResp = getServerResponse(requests);
         return mapResp.containsKey("error") ? mapResp : parseResponse();
     }
 
@@ -36,49 +36,58 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
             response.put("error","incorrect date settings please check request format") ;
             return response;
         }
-        String request = getStringRequest(dateArray[0]);
+        List<String>request = getStringRequest(dateArray[0]);
 
         mapResp = getServerResponse(request);
 
         return mapResp.containsKey("error") ? mapResp : parseResponse();
     }
-
-
-
     @Override
     public Map<String, Object> getQuotes(List<String> currenciesNames) {
         return null;
     }
 
-    public String getStringRequest(){
+    public List<String> getStringRequest(){
+        List<String> listOfStringRequest = new ArrayList<>();
         StringBuilder result = new StringBuilder();
-        result.append(MAIN + LATEST + MYAPPID + "&" +SYMBOLS + "=");
-        listofRequest = new LinkedList<Request>();
-        Request request;
-        for(Currency currency : currencyList){
-            request = Request.builder()
-                    .currencyName(currency.toString())
-                    .baseCurrency( currency.toString().substring(0,3))
-                    .quoteCurrency( currency.toString().substring(3))
-                    .build();
-            request.identifyBase();
-            listofRequest.add(request);
-        }
+        Map<String,StringBuilder> temporaryMap = new HashMap<String,StringBuilder>();
+        listofRequest = new ArrayList<>();
+
+        currencyList.forEach(K -> listofRequest.add(
+                Request.builder()
+                .currencyName(K.toString())
+                .baseCurrency( K.toString().substring(0,3))
+                .quoteCurrency( K.toString().substring(3))
+                .build()));
+
+        listofRequest.forEach(K -> K.identifyBase());
 
         Collections.sort(listofRequest);
 
-        for(Request requestInto : listofRequest){
-            result.append(requestInto);
+        String tempBase = listofRequest.get(0).getBase();
+        temporaryMap.put(tempBase,new StringBuilder());
+
+
+        for(Request request: listofRequest){
+            if(request.getBase().equals(tempBase)){
+                temporaryMap.put(tempBase,temporaryMap.get(tempBase).append(request.getRequestedName() + ","));
+            }else{
+                tempBase = request.getBase();
+                temporaryMap.put(tempBase,new StringBuilder().append(request.getRequestedName() + ","));
+            }
         }
 
-        result.setLength(result.length() - 1);
-        return result.toString();
+        temporaryMap.forEach((K,V)-> {
+            listOfStringRequest.add(String.format(MAIN,K,V.deleteCharAt(V.length()-1)));
+        });
+
+        return listOfStringRequest;
     }
 
     @Override
-    public String getStringRequest(LocalDateTime... date){
+    public List<String> getStringRequest(LocalDateTime... date){
         StringBuilder result = new StringBuilder();
-        result.append(MAIN + HISTORICAL + date[0].toLocalDate() + ".json?" + MYAPPID + "&" + SYMBOLS + "=");//format(DateTimeFormatter.ISO_DATE_TIME)
+        //result.append(MAIN  + date[0].toLocalDate() + ".json?"  + "&" + SYMBOLS + "=");//format(DateTimeFormatter.ISO_DATE_TIME)
         listofRequest = new LinkedList<Request>();
         Request request;
         for(Currency currency : currencyList) {
@@ -99,7 +108,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         }
 
         result.setLength(result.length() - 1);
-        return result.toString();
+        //return result.toString();
+        return null;
     }
 
     public  Map<String,Object> parseResponse(){

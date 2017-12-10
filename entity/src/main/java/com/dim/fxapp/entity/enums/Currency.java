@@ -4,20 +4,22 @@ package com.dim.fxapp.entity.enums;
  * Created by dima on 02.12.17.
  */
 public enum Currency {
+    GBPAUD ("GBPAUD"),
+    GBPJPY ("GBPJPY"),
+    GBPNZD ("GBPNZD"),
+
+    EURJPY ("EURJPY"),
+    EURGBP ("EURGBP"),
+
     EURUSD ("EURUSD"),
     GBPUSD ("GBPUSD"),
-    JPYUSD ("JPYUSD"),
+    USDJPY ("USDJPY"),
     AUDUSD ("AUDUSD"),
     NZDUSD ("NZDUSD"),
-    CADUSD ("CADUSD"),
+    USDCAD ("USDCAD");
 
-
-    /*GBPAUD ("GBPAUD"),
-    GBPJPY ("GBPJPY"),
-    GBPNZD ("GBPNZD"),*/
-
-    XAUUSD ("XAUUSD"),
-    XAGUSD ("XAGUSD");
+    //XAUUSD ("XAUUSD"),
+    //XAGUSD ("XAGUSD");
 
     private final String currency;
 

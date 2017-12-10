@@ -29,24 +29,24 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     @Value("${currency.main}")
     protected String MAIN;
-    @Value("${currency.myappid}")
-    protected String MYAPPID;
-    @Value("${currency.latest}")
+    /*@Value("${currency.latest}")
     protected String LATEST;
-    @Value("${currency.historical}")
-    protected String HISTORICAL;
-    @Value("${currency.timeseries}")
-    protected String TIMESERIES;
-    @Value("${currency.ohlc}")
-    protected String OHLC;
     @Value("${currency.symbols}")
     protected String SYMBOLS;
     @Value("${currency.base}")
     protected String BASE;
+    @Value("${currency.historical}")
+    protected String HISTORICAL;
+    @Value("${currency.myappid}")
+    protected String MYAPPID;
+    @Value("${currency.timeseries}")
+    protected String TIMESERIES;
+    @Value("${currency.ohlc}")
+    protected String OHLC;
     @Value("${currency.start}")
     protected String START;
     @Value("${currency.end}")
-    protected String END;
+    protected String END;    */
 
     protected static CloseableHttpClient httpClient = HttpClients.createDefault();
     protected HttpGet httpGet;
@@ -106,23 +106,28 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public abstract F getQuote(String currencyName);
-    public abstract String getStringRequest (LocalDateTime... dateArray);
+    public abstract List<String> getStringRequest (LocalDateTime... dateArray);
     public abstract Map<String,Object> getQuotes();
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray);
     public abstract Map<String,Object> getQuotes(List<String> currenciesNames);
 
-    public Map<String,Object> getServerResponse(String strRequest){
+    public Map<String,Object> getServerResponse(List<String> strRequest){
         Map<String, Object> local = new HashMap<String,Object>();
-        httpGet = new HttpGet(strRequest);
+        Map<String,Object> resultMap = new HashMap<>();
+
+        for(String str: strRequest){
+            httpGet = new HttpGet(str);
+        }
         try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
             HttpEntity entity = response.getEntity();
             local = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+            resultMap.putAll(local);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return local;
+        return resultMap;
     }
 
 
