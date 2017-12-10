@@ -16,7 +16,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     private Map<String, Object> mapResp; // full response from server
     private Map<String,Double> ratesMap; // only rates map from mapResp
 
-
     @Override
     public QuotesLive getQuote(String currencyName) {
         return null;
@@ -24,8 +23,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
     @Override
     public Map<String,Object> getQuotes() {
-        List<String> requests = getStringRequest();
-        mapResp = getServerResponse(requests);
+        mapResp = getServerResponse(getStringRequest());
         return mapResp.containsKey("error") ? mapResp : parseResponse();
     }
 

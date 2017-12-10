@@ -114,9 +114,21 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         Map<String, Object> local = new HashMap<String,Object>();
         Map<String,Object> resultMap = new HashMap<>();
 
-        for(String str: strRequest){
-            httpGet = new HttpGet(str);
-        }
+        strRequest.forEach(K ->{
+            httpGet = new HttpGet(K);
+
+            try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
+                HttpEntity entity = response.getEntity();
+                resultMap.putAll(new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class));
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+
+
+
         try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
             HttpEntity entity = response.getEntity();
             local = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
