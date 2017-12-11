@@ -26,7 +26,6 @@ public class Controller {
     @Qualifier("LiveQuotes")
     private ExecuteRequestAbstract<QuotesLive> getLiveQuotes;
 
-
     @Autowired
     @Qualifier("Quotes")
     private ExecuteRequestAbstract<Quotes> getQuotes;

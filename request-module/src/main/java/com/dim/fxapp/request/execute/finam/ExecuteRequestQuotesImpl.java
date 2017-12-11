@@ -21,7 +21,6 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
             response.put("error","incorrect date settings please check request format") ;
             return response;
         }
-
         request = getStringRequest(dateArray[0],dateArray[1]);
         return null;
     }

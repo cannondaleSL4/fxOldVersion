@@ -2,7 +2,10 @@ package com.dim.fxapp.request.abstractCL;
 
 import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.enums.Currency;
+import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.execute.Request;
+import com.dim.fxapp.request.execute.Response;
+import com.dim.fxapp.request.exeption.ServerRequestExeption;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -20,7 +23,9 @@ import java.util.*;
 /**
  * Created by dima on 02.12.17.
  */
-
+/*
+controller advice
+ */
 /*
 * this is class is abstract, but can use builder pattern
 */
@@ -111,34 +116,50 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray);
 
     public Map<String,Object> getServerResponse(List<String> strRequest){
-        Map<String, Object> local = new HashMap<String,Object>();
-        Map<String,Object> resultMap = new HashMap<>();
+        Map<String,Object> responseMap= new HashMap<>();
 
-        strRequest.forEach(K ->{
-            httpGet = new HttpGet(K);
-
+        for(String str: strRequest){
+            httpGet = new HttpGet(str);
             try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
                 HttpEntity entity = response.getEntity();
-                resultMap.putAll(new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class));
+                Map<String,Object> localMap = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+                if(localMap.containsKey("error")) throw new ServerRequestExeption((String)localMap.get("error"));
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
+            } catch (ServerRequestExeption serverRequestExeption) {
+                serverRequestExeption.printStackTrace();
             }
-        });
-
-
-
-        try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
-            HttpEntity entity = response.getEntity();
-            local = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
-            resultMap.putAll(local);
-        } catch (ClientProtocolException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
-        return resultMap;
+        return responseMap;
+    }
+
+    public void addMap(Map<String,Object> mapsForParse){
+
+        /*ratesMap = (Map<String, Double>) mapResp.get("rates");
+        List<Response> listOfResponse = new ArrayList<Response>();
+        for(Request request: listofRequest){
+            if(ratesMap.containsKey(request.getRequestedName())){
+                Response response = Response.builder()
+                        .currencyName(request.getCurrencyName())
+                        .price(ratesMap.get(request.getRequestedName()))
+                        .date(request.getDate())
+                        .build();
+                listOfResponse.add(response);
+            }
+        }
+        //TODO рассмотреть возможность убрать Response вообще убрать ))
+        for(Response response: listOfResponse ){
+            QuotesLive quotesLive = new QuotesLive.Builder()
+                    .name(response.getCurrencyName())
+                    .price(response.getRightPrice())
+                    .date(response.getDate())
+                    .build();
+            financialEntities.add(quotesLive);
+        }
+        mapResp.put("rates",financialEntities);
+        return mapResp;*/
     }
 
 
