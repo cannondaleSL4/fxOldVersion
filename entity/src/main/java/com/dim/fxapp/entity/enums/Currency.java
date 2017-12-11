@@ -9,14 +9,14 @@ public enum Currency {
     GBPNZD ("GBPNZD"),
 
     EURJPY ("EURJPY"),
-    EURGBP ("EURGBP");
+    EURGBP ("EURGBP"),
 
-    /*EURUSD ("EURUSD"),
+    EURUSD ("EURUSD"),
     GBPUSD ("GBPUSD"),
     USDJPY ("USDJPY"),
     AUDUSD ("AUDUSD"),
     NZDUSD ("NZDUSD"),
-    USDCAD ("USDCAD");*/
+    USDCAD ("USDCAD");
 
     //XAUUSD ("XAUUSD"),
     //XAGUSD ("XAGUSD");

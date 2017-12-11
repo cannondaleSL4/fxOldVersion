@@ -115,8 +115,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         ratesMap.forEach((V,K) ->{
             QuotesLive quotesLive = new QuotesLive.Builder()
                     .name(V)
-                    .price(K)
                     .base(base)
+                    .price(K)
                     .date(localDateTime)
                     .build();
             financialEntities.add(quotesLive);

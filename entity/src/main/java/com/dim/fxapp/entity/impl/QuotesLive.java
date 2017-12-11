@@ -58,10 +58,14 @@ public class QuotesLive extends FinancialEntity {
         }
 
         public Builder price(Double price){
-            if (price > 10) {
-                this.price = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
-            } else{
-                this.price = BigDecimal.ONE.divide(new BigDecimal(price),4,RoundingMode.HALF_UP);
+            if(!base.equals("USD")){
+                this.price = (price > 10) ? (new BigDecimal(price).setScale(2, RoundingMode.HALF_UP)) : (new BigDecimal(price).setScale(4, RoundingMode.HALF_UP));
+            } else {
+                if (name.contains("JPY") || name.contains("CAD") ){
+                    this.price = (price > 10) ? (new BigDecimal(price).setScale(2, RoundingMode.HALF_UP)) : (new BigDecimal(price).setScale(4, RoundingMode.HALF_UP));
+                } else{
+                    this.price = BigDecimal.ONE.divide(new BigDecimal(price),4,RoundingMode.HALF_UP);
+                }
             }
             return this;
         }
@@ -73,7 +77,7 @@ public class QuotesLive extends FinancialEntity {
                 return this;
             }
 
-            if(this.name.equals("JPY") &&
+            if(this.name.equals("JPY") ||
                     this.name.equals("CAD")){
                 this.name = base + this.name;
                 return this;
@@ -103,5 +107,17 @@ public class QuotesLive extends FinancialEntity {
         this.localDateTime = quoteBuild.date;
         this.price = quoteBuild.price;
         this.base = quoteBuild.base;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public LocalDateTime getLocalDateTime() {
+        return localDateTime;
     }
 }
