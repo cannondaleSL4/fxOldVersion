@@ -117,13 +117,15 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     public Map<String,Object> getServerResponse(List<String> strRequest){
         Map<String,Object> responseMap= new HashMap<>();
+        Map<String,Object> localMap;
 
         for(String str: strRequest){
             httpGet = new HttpGet(str);
             try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
                 HttpEntity entity = response.getEntity();
-                Map<String,Object> localMap = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+                localMap = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
                 if(localMap.containsKey("error")) throw new ServerRequestExeption((String)localMap.get("error"));
+                addMap(localMap);
             } catch (ClientProtocolException e) {
                 e.printStackTrace();
             } catch (IOException e) {
@@ -136,7 +138,13 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public void addMap(Map<String,Object> mapsForParse){
+        Map<String,Object> rateMap = new HashMap<>();
+        rateMap = (Map<String, Object>) mapsForParse.get("rates");
+        String base = (String) mapsForParse.get("base");
+        List<F> financialEntities = new ArrayList<F>();
+        rateMap.forEach((V,K) ->{
 
+        });
         /*ratesMap = (Map<String, Double>) mapResp.get("rates");
         List<Response> listOfResponse = new ArrayList<Response>();
         for(Request request: listofRequest){

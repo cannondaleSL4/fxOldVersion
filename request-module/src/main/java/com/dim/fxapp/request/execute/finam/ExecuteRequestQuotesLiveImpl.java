@@ -13,8 +13,8 @@ import java.util.*;
  * Created by dima on 30.11.17.
  */
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
-    //private Map<String, Object> mapResp; // full response from server
-    //private Map<String,Double> ratesMap; // only rates map from mapResp
+    private Map<String, Object> mapResp; // full response from server
+    private Map<String,Double> ratesMap; // only rates map from mapResp
 
     @Override
     public QuotesLive getQuote(String currencyName) {
