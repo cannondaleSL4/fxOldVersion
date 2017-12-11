@@ -23,6 +23,4 @@ eureka:
 #  end: end_time
 
 currency:
-  main : https://api.fixer.io/latest?base=%s&symbols=%s
-  #symbols: symbols
-  #base: base
+  main : https://api.fixer.io/%s?base=%s&symbols=%s

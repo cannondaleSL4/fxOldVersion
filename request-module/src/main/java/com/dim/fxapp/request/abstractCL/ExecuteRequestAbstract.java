@@ -3,10 +3,11 @@ package com.dim.fxapp.request.abstractCL;
 import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.request.execute.Request;
+import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
+import com.dim.fxapp.request.exeption.ServerRequestExeption;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.util.*;
@@ -23,8 +24,7 @@ controller advice
 
 public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
-    @Value("${currency.main}")
-    protected String MAIN;
+
     /*@Value("${currency.latest}")
     protected String LATEST;
     @Value("${currency.symbols}")
@@ -100,41 +100,11 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected ExecuteRequestAbstract(){
 
     }
-
     public abstract F getQuote(String currencyName);
     public abstract  void addListToMap(Map<String,Object> mapsForParse);
-    public abstract Map<String,Object> getServerResponse(List<String> strRequest);
-    public abstract List<String> getStringRequest();
+    public abstract Map<String,Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption;
+    public abstract List<String> getStringRequest(String param);
     public abstract List<String> getStringRequest (LocalDateTime... dateArray);
-    public abstract Map<String,Object> getQuotes();
-    public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray);
-
-
-
-    //public void addListToMap(Map<String,Object> mapsForParse){
-
-        /*ratesMap = (Map<String, Double>) mapResp.get("rates");
-        List<Response> listOfResponse = new ArrayList<Response>();
-        for(Request request: listofRequest){
-            if(ratesMap.containsKey(request.getRequestedName())){
-                Response response = Response.builder()
-                        .currencyName(request.getCurrencyName())
-                        .price(ratesMap.get(request.getRequestedName()))
-                        .date(request.getDate())
-                        .build();
-                listOfResponse.add(response);
-            }
-        }
-        //TODO рассмотреть возможность убрать Response вообще убрать ))
-        for(Response response: listOfResponse ){
-            QuotesLive quotesLive = new QuotesLive.Builder()
-                    .name(response.getCurrencyName())
-                    .price(response.getRightPrice())
-                    .date(response.getDate())
-                    .build();
-            financialEntities.add(quotesLive);
-        }
-        mapResp.put("rates",financialEntities);
-        return mapResp;*/
-    //}
+    public abstract Map<String,Object> getQuotes() throws ServerRequestExeption;
+    public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray) throws ServerRequestDateExeption, ServerRequestExeption;
 }

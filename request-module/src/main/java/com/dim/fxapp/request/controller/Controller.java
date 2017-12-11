@@ -3,6 +3,8 @@ package com.dim.fxapp.request.controller;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
+import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
+import com.dim.fxapp.request.exeption.ServerRequestExeption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,14 +33,12 @@ public class Controller {
     private ExecuteRequestAbstract<Quotes> getQuotes;
 
     @RequestMapping(value = "/quotes" , method = RequestMethod.GET)
-    public Map<String,Object> getQuotesLive() {
-        Map<String,Object>  map =getLiveQuotes.getQuotes();
-
-        return map;
+    public Map<String,Object> getQuotesLive() throws ServerRequestExeption {
+        return getLiveQuotes.getQuotes();
     }
 
     @RequestMapping(value ="/quotes/{date}", method = RequestMethod.GET)
-    public Map<String,Object> getQuotesDate(@PathVariable("date")String date){
+    public Map<String,Object> getQuotesDate(@PathVariable("date")String date) throws ServerRequestDateExeption, ServerRequestExeption {
 
         dateFirst = getArrayList(date);
 
@@ -47,7 +47,7 @@ public class Controller {
 
     @RequestMapping(value = "/history/{from}/{to}", method = RequestMethod.GET)
     public Map<String,Object> getHistory(@PathVariable("from") String from,
-                                         @PathVariable("to") String to){
+                                         @PathVariable("to") String to) throws ServerRequestDateExeption, ServerRequestExeption {
         dateFirst = getArrayList(from);
         dateSecond = getArrayList(to);
 
@@ -60,7 +60,7 @@ public class Controller {
 
     //если не указанно ДО - то считать это ДО Сейчас.
     @RequestMapping(value = "/history/{from}", method = RequestMethod.GET)
-    public Map<String,Object> getHistory(@PathVariable("from") String from){
+    public Map<String,Object> getHistory(@PathVariable("from") String from) throws ServerRequestDateExeption, ServerRequestExeption {
         dateFirst = getArrayList(from);
 
         // int year, int month, int dayOfMonth int hours int minutes

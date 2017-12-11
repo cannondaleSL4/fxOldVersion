@@ -30,7 +30,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         List<String> resultList = new ArrayList<>();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         StringBuilder result = new StringBuilder();
-        result.append(MAIN + "="+ dateArray[0].format(DateTimeFormatter.ISO_DATE_TIME) + "&" +  "=" + dateArray[1].format(DateTimeFormatter.ISO_DATE_TIME) +
+        result.append("="+ dateArray[0].format(DateTimeFormatter.ISO_DATE_TIME) + "&" +  "=" + dateArray[1].format(DateTimeFormatter.ISO_DATE_TIME) +
                    "=");
         listofRequest = new LinkedList<Request>();
         Request request;
@@ -73,9 +73,10 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     }
 
     @Override
-    public List<String> getStringRequest() {
+    public List<String> getStringRequest(String param) {
         return null;
     }
+
 
 
     @Override
