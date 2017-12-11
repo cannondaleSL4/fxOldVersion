@@ -67,13 +67,19 @@ public class QuotesLive extends FinancialEntity {
         }
 
         public Builder base(String base){
+            this.base = base;
             if (!base.equals("USD")){
-                this.base = base;
-                this.name = base + name;
+                this.name = base + this.name;
                 return this;
             }
-            this.base = base;
 
+            if(this.name.equals("JPY") &&
+                    this.name.equals("CAD")){
+                this.name = base + this.name;
+                return this;
+            }
+
+            this.name = name + base;
             return this;
         }
 
@@ -96,37 +102,6 @@ public class QuotesLive extends FinancialEntity {
         this.name = quoteBuild.name;
         this.localDateTime = quoteBuild.date;
         this.price = quoteBuild.price;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
-    public LocalDateTime getLocalDateTime() {
-        return localDateTime;
-    }
-
-    public void setLocalDateTime(LocalDateTime date) {
-        this.localDateTime = date;
+        this.base = quoteBuild.base;
     }
 }

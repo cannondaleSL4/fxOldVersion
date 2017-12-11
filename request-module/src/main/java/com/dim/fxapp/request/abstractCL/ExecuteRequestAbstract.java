@@ -2,21 +2,12 @@ package com.dim.fxapp.request.abstractCL;
 
 import com.dim.fxapp.entity.FinancialEntity;
 import com.dim.fxapp.entity.enums.Currency;
-import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.execute.Request;
-import com.dim.fxapp.request.execute.Response;
-import com.dim.fxapp.request.exeption.ServerRequestExeption;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -57,7 +48,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected HttpGet httpGet;
 
     protected List<Currency> currencyList = Arrays.asList(Currency.values());
-    protected List<FinancialEntity> financialEntities = new ArrayList<FinancialEntity>();
+    protected List<F> financialEntities = new ArrayList<F>();
 
     protected List<Request> requestList = new LinkedList<Request>();
     protected List<Request> listofRequest;
@@ -146,45 +137,4 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         mapResp.put("rates",financialEntities);
         return mapResp;*/
     //}
-
-
-    public List<Currency> getCurrencyList() {
-        return currencyList;
-    }
-
-    public void setCurrencyList(List<Currency> currencyList) {
-        this.currencyList = currencyList;
-    }
-
-    public List<Request> getRequestList() {
-        return requestList;
-    }
-
-    public void setRequestList(List<Request> requestList) {
-        this.requestList = requestList;
-    }
-
-    public LocalDateTime getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDateTime date) {
-        this.date = date;
-    }
-
-    public LocalDateTime getFrom() {
-        return from;
-    }
-
-    public void setFrom(LocalDateTime from) {
-        this.from = from;
-    }
-
-    public LocalDateTime getTo() {
-        return to;
-    }
-
-    public void setTo(LocalDateTime to) {
-        this.to = to;
-    }
 }

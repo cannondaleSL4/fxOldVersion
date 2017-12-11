@@ -32,7 +32,9 @@ public class Controller {
 
     @RequestMapping(value = "/quotes" , method = RequestMethod.GET)
     public Map<String,Object> getQuotesLive() {
-        return getLiveQuotes.getQuotes();
+        Map<String,Object>  map =getLiveQuotes.getQuotes();
+
+        return map;
     }
 
     @RequestMapping(value ="/quotes/{date}", method = RequestMethod.GET)
