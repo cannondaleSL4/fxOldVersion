@@ -111,40 +111,17 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     }
 
     public abstract F getQuote(String currencyName);
+    public abstract  void addListToMap(Map<String,Object> mapsForParse);
+    public abstract Map<String,Object> getServerResponse(List<String> strRequest);
+    public abstract List<String> getStringRequest();
     public abstract List<String> getStringRequest (LocalDateTime... dateArray);
     public abstract Map<String,Object> getQuotes();
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray);
 
-    public Map<String,Object> getServerResponse(List<String> strRequest){
-        Map<String,Object> responseMap= new HashMap<>();
-        Map<String,Object> localMap;
 
-        for(String str: strRequest){
-            httpGet = new HttpGet(str);
-            try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
-                HttpEntity entity = response.getEntity();
-                localMap = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
-                if(localMap.containsKey("error")) throw new ServerRequestExeption((String)localMap.get("error"));
-                addMap(localMap);
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            } catch (ServerRequestExeption serverRequestExeption) {
-                serverRequestExeption.printStackTrace();
-            }
-        }
-        return responseMap;
-    }
 
-    public void addMap(Map<String,Object> mapsForParse){
-        Map<String,Object> rateMap = new HashMap<>();
-        rateMap = (Map<String, Object>) mapsForParse.get("rates");
-        String base = (String) mapsForParse.get("base");
-        List<F> financialEntities = new ArrayList<F>();
-        rateMap.forEach((V,K) ->{
+    //public void addListToMap(Map<String,Object> mapsForParse){
 
-        });
         /*ratesMap = (Map<String, Double>) mapResp.get("rates");
         List<Response> listOfResponse = new ArrayList<Response>();
         for(Request request: listofRequest){
@@ -168,7 +145,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         }
         mapResp.put("rates",financialEntities);
         return mapResp;*/
-    }
+    //}
 
 
     public List<Currency> getCurrencyList() {

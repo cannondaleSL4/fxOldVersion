@@ -62,6 +62,21 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         return null;
     }
 
+    @Override
+    public void addListToMap(Map<String, Object> mapsForParse) {
+
+    }
+
+    @Override
+    public Map<String, Object> getServerResponse(List<String> strRequest) {
+        return null;
+    }
+
+    @Override
+    public List<String> getStringRequest() {
+        return null;
+    }
+
 
     @Override
     public Map<String,Object> getQuotes() {

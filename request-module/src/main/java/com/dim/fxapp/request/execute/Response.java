@@ -5,6 +5,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 @Getter
@@ -23,10 +24,8 @@ public class Response {
     public BigDecimal getRightPrice(){
         BigDecimal temp = new BigDecimal(price);
 
-        //if (this.price > 10) return new BigDecimal(this.price).setScale(2, RoundingMode.HALF_UP);
+        if (this.price > 10) return new BigDecimal(this.price).setScale(2, RoundingMode.HALF_UP);
 
-        //return BigDecimal.ONE.divide(temp,4,RoundingMode.HALF_UP);
-
-        return temp;
+        return BigDecimal.ONE.divide(temp,4,RoundingMode.HALF_UP);
     }
 }

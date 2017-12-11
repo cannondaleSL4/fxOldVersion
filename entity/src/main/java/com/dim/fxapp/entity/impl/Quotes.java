@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
  * Created by dima on 28.11.17.
  */
 @Entity
-public class Quotes implements FinancialEntity {
+public class Quotes extends FinancialEntity {
     @Id
     @GeneratedValue
     @Column(name = "id")

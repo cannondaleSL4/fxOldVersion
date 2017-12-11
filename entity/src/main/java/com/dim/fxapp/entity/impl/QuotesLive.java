@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.LocalDateTime;
 
 /**
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
  */
 
 @Entity
-public class QuotesLive implements FinancialEntity {
+public class QuotesLive extends FinancialEntity {
     @Id
     @GeneratedValue
     @Column(name = "id")
@@ -25,6 +26,8 @@ public class QuotesLive implements FinancialEntity {
 
     @Column(name = "name")
     private String name;
+
+    private String base;
 
     @Column(name = "price")
     private BigDecimal price;
@@ -37,6 +40,7 @@ public class QuotesLive implements FinancialEntity {
     public static class Builder {
         private Long id;
         private String name;
+        private String base;
         private BigDecimal price;
         private LocalDateTime date;
 
@@ -53,8 +57,23 @@ public class QuotesLive implements FinancialEntity {
             return this;
         }
 
-        public Builder price(BigDecimal price){
-            this.price = price;
+        public Builder price(Double price){
+            if (price > 10) {
+                this.price = new BigDecimal(price).setScale(2, RoundingMode.HALF_UP);
+            } else{
+                this.price = BigDecimal.ONE.divide(new BigDecimal(price),4,RoundingMode.HALF_UP);
+            }
+            return this;
+        }
+
+        public Builder base(String base){
+            if (!base.equals("USD")){
+                this.base = base;
+                this.name = base + name;
+                return this;
+            }
+            this.base = base;
+
             return this;
         }
 

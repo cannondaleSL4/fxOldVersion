@@ -5,7 +5,16 @@ import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
 import com.dim.fxapp.request.execute.Response;
+import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.http.HttpEntity;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.util.EntityUtils;
 
+import java.io.IOException;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -28,20 +37,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     @Override
-    public Map<String, Object> getQuotes(LocalDateTime... dateArray) {
-        if (dateArray.length != 1){
-            Map<String,Object> response = new HashMap<String,Object>();
-            response.put("error","incorrect date settings please check request format") ;
-            return response;
-        }
-        List<String>request = getStringRequest(dateArray[0]);
-
-        mapResp = getServerResponse(request);
-
-        return mapResp.containsKey("error") ? mapResp : parseResponse();
-    }
-
-
     public List<String> getStringRequest(){
         List<String> listOfStringRequest = new ArrayList<>();
         StringBuilder result = new StringBuilder();
@@ -50,10 +45,10 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
         currencyList.forEach(K -> listofRequest.add(
                 Request.builder()
-                .currencyName(K.toString())
-                .baseCurrency( K.toString().substring(0,3))
-                .quoteCurrency( K.toString().substring(3))
-                .build()));
+                        .currencyName(K.toString())
+                        .baseCurrency( K.toString().substring(0,3))
+                        .quoteCurrency( K.toString().substring(3))
+                        .build()));
 
         listofRequest.forEach(K -> K.identifyBase());
 
@@ -78,6 +73,62 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
         return listOfStringRequest;
     }
+
+    @Override
+    public Map<String,Object> getServerResponse(List<String> strRequest){
+        Map<String,Object> responseMap= new HashMap<>();
+        Map<String,Object> localMap;
+
+        for(String str: strRequest){
+            httpGet = new HttpGet(str);
+            try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
+                HttpEntity entity = response.getEntity();
+                localMap = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
+                if(localMap.containsKey("error")) throw new ServerRequestExeption((String)localMap.get("error"));
+                addListToMap(localMap);
+            } catch (ClientProtocolException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (ServerRequestExeption serverRequestExeption) {
+                serverRequestExeption.printStackTrace();
+            }
+        }
+        return responseMap;
+    }
+
+    @Override
+    public void addListToMap(Map<String,Object> mapsForParse){
+        Map<String,Object> rateMap = new HashMap<>();
+        rateMap = (Map<String, Object>) mapsForParse.get("rates");
+        String base = (String) mapsForParse.get("base");
+        List<QuotesLive> financialEntities = new ArrayList<QuotesLive>();
+        rateMap.forEach((V,K) ->{
+            QuotesLive quotesLive = new QuotesLive.Builder()
+                    .name(V)
+                    .price((Double) K)
+                    .base(base)
+                    //.date(response.getDate())
+                    .build();
+            financialEntities.add(quotesLive);
+        });
+    }
+
+    @Override
+    public Map<String, Object> getQuotes(LocalDateTime... dateArray) {
+        if (dateArray.length != 1){
+            Map<String,Object> response = new HashMap<String,Object>();
+            response.put("error","incorrect date settings please check request format") ;
+            return response;
+        }
+        List<String>request = getStringRequest(dateArray[0]);
+
+        mapResp = getServerResponse(request);
+
+        return mapResp.containsKey("error") ? mapResp : parseResponse();
+    }
+
+
 
     @Override
     public List<String> getStringRequest(LocalDateTime... date){
@@ -124,7 +175,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         for(Response response: listOfResponse ){
             QuotesLive quotesLive = new QuotesLive.Builder()
                     .name(response.getCurrencyName())
-                    .price(response.getRightPrice())
+                    .price(response.getPrice())
                     .date(response.getDate())
                     .build();
             financialEntities.add(quotesLive);
