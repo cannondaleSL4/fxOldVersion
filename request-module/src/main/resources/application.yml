@@ -24,3 +24,4 @@ eureka:
 
 currency:
   main : https://api.fixer.io/%s?base=%s&symbols=%s
+  mainfinam:

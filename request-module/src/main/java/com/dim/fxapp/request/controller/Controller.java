@@ -34,18 +34,27 @@ public class Controller {
     @Qualifier("Quotes")
     private ExecuteRequestAbstract<Quotes> getQuotes;
 
-    @RequestMapping(value = "/quotes" , method = RequestMethod.GET)
+    @RequestMapping(value = "/livequotes" , method = RequestMethod.GET)
     public Map<String,Object> getQuotesLive() throws ServerRequestExeption {
         return getLiveQuotes.getQuotes();
     }
 
-    @RequestMapping(value ="/quotes/{date}", method = RequestMethod.GET)
-    public Map<String,Object> getQuotesDate(@PathVariable("date")String date) throws ServerRequestDateExeption, ServerRequestExeption {
+    @RequestMapping(value ="/livequotes/{date}", method = RequestMethod.GET)
+    public Map<String,Object> getQuotesLiveDate(@PathVariable("date")String date) throws ServerRequestDateExeption, ServerRequestExeption {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
         LocalDateTime localDate = LocalDateTime.from(LocalDate.parse(date,formatter).atStartOfDay());
-
         return getLiveQuotes.getQuotes(localDate);
+    }
+
+    @RequestMapping(value = "quotes/{from}/{to}")
+    public Map<String,Object> getQuotes(@PathVariable("from")String from,
+                                        @PathVariable("to")String to) throws ServerRequestExeption, ServerRequestDateExeption {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDateTime dateFrom = LocalDateTime.from(LocalDate.parse(from,formatter).atStartOfDay());
+        LocalDateTime dateTo = LocalDateTime.from(LocalDate.parse(from,formatter).atStartOfDay());
+
+        return getQuotes.getQuotes(dateFrom,dateTo);
     }
 
 }

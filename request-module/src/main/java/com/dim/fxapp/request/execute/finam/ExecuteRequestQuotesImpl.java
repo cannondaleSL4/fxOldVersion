@@ -4,6 +4,9 @@ import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
+import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
+import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -13,11 +16,13 @@ import java.util.*;
  */
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
+    @Value("${currensy.mainfinam}")
+    String MAIN;
+
     @Override
-    public Map<String, Object> getQuotes(LocalDateTime... dateArray) {
+    public Map<String, Object> getQuotes(LocalDateTime... dateArray) throws ServerRequestDateExeption, ServerRequestExeption {
         return null;
     }
-
 
     @Override
     public Quotes getQuote(String currencyName) {
@@ -30,7 +35,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     }
 
     @Override
-    public Map<String, Object> getServerResponse(List<String> strRequest) {
+    public Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
         return null;
     }
 
@@ -39,11 +44,8 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         return null;
     }
 
-
-
     @Override
-    public Map<String,Object> getQuotes() {
+    public Map<String, Object> getQuotes() throws ServerRequestExeption {
         return null;
     }
-
 }
