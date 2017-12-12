@@ -47,9 +47,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     @Override
     public List<String> getStringRequest(String param){
         List<String> listOfStringRequest = new ArrayList<>();
-        StringBuilder result = new StringBuilder();
-        Map<String,StringBuilder> temporaryMap = new HashMap<String,StringBuilder>();
-        listofRequest = new ArrayList<>();
+        Map<String,StringBuilder> temporaryMap = new HashMap<>();
 
         currencyList.forEach(K -> listofRequest.add(
                 Request.builder()

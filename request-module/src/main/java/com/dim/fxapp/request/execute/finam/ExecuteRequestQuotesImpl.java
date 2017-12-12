@@ -18,6 +18,8 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
     @Value("${currensy.mainfinam}")
     String MAIN;
+    @Value("${currensy.mainfinamreques}")
+    String MAIN_FOR_REQUEST;
 
     private Map<String, Object> mapResp = new HashMap<>(); // full response from server
     private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
@@ -25,9 +27,36 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     @Override
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) throws ServerRequestDateExeption, ServerRequestExeption {
         if(dateArray.length != 2) throw new ServerRequestDateExeption("incorrect date settings please check request format");
-
+        from = dateArray[0];
+        to = dateArray[1];
+        mapResp = getServerResponse(getStringRequest("latest"));
         return mapResp;
     }
+
+    @Override
+    public List<String> getStringRequest(String param) {
+        List<String> listOfStringRequest = new ArrayList<>();
+        Map<String,StringBuilder> temporaryMap = new HashMap<>();
+
+        currencyList.forEach(K -> listofRequest.add(
+                Request.builder()
+                        .currencyName(K.toString())
+                        .baseCurrency( K.toString().substring(0,3))
+                        .quoteCurrency( K.toString().substring(3))
+                        .build()));
+
+        listofRequest.forEach(K -> K.identifyBase());
+
+        Collections.sort(listofRequest);
+
+        String tempBase = listofRequest.get(0).getBase();
+        temporaryMap.put(tempBase,new StringBuilder());
+
+
+
+        return listOfStringRequest;
+    }
+
 
     @Override
     public Quotes getQuote(String currencyName) {
@@ -41,11 +70,6 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
     @Override
     public Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
-        return null;
-    }
-
-    @Override
-    public List<String> getStringRequest(String param) {
         return null;
     }
 

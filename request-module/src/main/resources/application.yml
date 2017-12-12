@@ -24,4 +24,18 @@ eureka:
 
 currency:
   main : https://api.fixer.io/%s?base=%s&symbols=%s
-  mainfinam:
+  mainfinamreques: https://www.finam.ru/profile/forex/
+  mainfinam: http://export.finam.ru/%s.txt?
+             market=%s&
+             em=%s&
+             code=%s&
+             apply=0&
+             df=%s&
+             mf=%s&
+             yf=%s&
+             from=%s&
+             dt=%s&
+             mt=%s&
+             yt=%s&
+             to=%s&
+             p=&s&
