@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Value;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 /**
@@ -29,11 +30,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
 
     @Override
-    public QuotesLive getQuote(String currencyName) {
-        return null;
-    }
-
-    @Override
     public Map<String,Object> getQuotes() throws ServerRequestExeption {
         mapResp = getServerResponse(getStringRequest("latest"));
         return mapResp;
@@ -43,7 +39,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) throws ServerRequestDateExeption, ServerRequestExeption {
         if (dateArray.length != 1)throw new ServerRequestDateExeption("incorrect date settings please check request format");
         date = dateArray[0];
-        mapResp = getServerResponse(getStringRequest("latest"));
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        mapResp = getServerResponse(getStringRequest(date.format(formatter)));
         return mapResp;
     }
 
@@ -108,14 +105,13 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     public void addListToMap(Map<String,Object> mapsForParse){
         ratesMap = (Map<String, Double>) mapsForParse.get("rates");
         final String base = (String) mapsForParse.get("base");
-        final LocalDateTime localDateTime = LocalDateTime.now();
 
         ratesMap.forEach((V,K) ->{
             QuotesLive quotesLive = new QuotesLive.Builder()
                     .name(V)
                     .base(base)
                     .price(K)
-                    .date(localDateTime)
+                    .date(date)
                     .build();
             financialEntities.add(quotesLive);
         });
@@ -124,8 +120,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     @Override
-    public List<String> getStringRequest(LocalDateTime... date){
+    public QuotesLive getQuote(String currencyName) {
         return null;
     }
-
 }

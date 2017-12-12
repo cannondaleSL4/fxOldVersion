@@ -12,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -40,12 +42,15 @@ public class Controller {
     @RequestMapping(value ="/quotes/{date}", method = RequestMethod.GET)
     public Map<String,Object> getQuotesDate(@PathVariable("date")String date) throws ServerRequestDateExeption, ServerRequestExeption {
 
-        dateFirst = getArrayList(date);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDateTime localDate = LocalDateTime.from(LocalDate.parse(date,formatter).atStartOfDay());
 
-        return getLiveQuotes.getQuotes(LocalDateTime.of(dateFirst.get(0), dateFirst.get(1), dateFirst.get(2), dateFirst.get(3), dateFirst.get(4)));
+        return getLiveQuotes.getQuotes(localDate);
     }
 
-    @RequestMapping(value = "/history/{from}/{to}", method = RequestMethod.GET)
+}
+
+/*@RequestMapping(value = "/history/{from}/{to}", method = RequestMethod.GET)
     public Map<String,Object> getHistory(@PathVariable("from") String from,
                                          @PathVariable("to") String to) throws ServerRequestDateExeption, ServerRequestExeption {
         dateFirst = getArrayList(from);
@@ -69,18 +74,27 @@ public class Controller {
 
         return getQuotes.getQuotes(fromDate,toDate);
     }
+    @RequestMapping(value = "/history/{from}/{to}", method = RequestMethod.GET)
+    public Map<String,Object> getHistory(@PathVariable("from") String from,
+                                         @PathVariable("to") String to) throws ServerRequestDateExeption, ServerRequestExeption {
+        dateFirst = getArrayList(from);
+        dateSecond = getArrayList(to);
 
-    // надо проставить значения для часов и минут, если была обозначенна только дата
-    private List<Integer> getArrayList(String date){
-        List<Integer> list = Arrays.asList(date.split("-"))
-                .stream()
-                .mapToInt(Integer::parseInt)
-                .boxed()
-                .collect(Collectors.toList());
-        if(list.size() == 3){
-            list.add(3,0);
-            list.add(4,0);
-        }
-        return list;
+        // int year, int month, int dayOfMonth int hours int minutes
+        LocalDateTime fromDate = LocalDateTime.of(dateFirst.get(0),dateFirst.get(1),dateFirst.get(2),dateFirst.get(3),dateFirst.get(4));
+        LocalDateTime toDate = LocalDateTime.of(dateSecond.get(0),dateSecond.get(1),dateSecond.get(2),dateSecond.get(4),dateSecond.get(5));
+
+        return getQuotes.getQuotes(fromDate,toDate);
     }
-}
+
+    //если не указанно ДО - то считать это ДО Сейчас.
+    @RequestMapping(value = "/history/{from}", method = RequestMethod.GET)
+    public Map<String,Object> getHistory(@PathVariable("from") String from) throws ServerRequestDateExeption, ServerRequestExeption {
+        dateFirst = getArrayList(from);
+
+        // int year, int month, int dayOfMonth int hours int minutes
+        LocalDateTime fromDate = LocalDateTime.of(dateFirst.get(0),dateFirst.get(1),dateFirst.get(2),dateFirst.get(3),dateFirst.get(4));
+        LocalDateTime toDate = LocalDateTime.now();
+
+        return getQuotes.getQuotes(fromDate,toDate);
+    }*/

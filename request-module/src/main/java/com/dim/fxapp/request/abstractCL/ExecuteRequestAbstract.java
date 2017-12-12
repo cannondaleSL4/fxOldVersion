@@ -50,12 +50,11 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected List<Currency> currencyList = Arrays.asList(Currency.values());
     protected List<F> financialEntities = new ArrayList<F>();
 
-    protected List<Request> requestList = new LinkedList<Request>();
-    protected List<Request> listofRequest;
+    //protected List<Request> requestList = new LinkedList<Request>();
+    protected List<Request> listofRequest = new ArrayList<>();
     protected LocalDateTime date;
     protected LocalDateTime from;
     protected LocalDateTime to;
-
 
     protected static abstract class Builder <T extends ExecuteRequestAbstract, B extends Builder<T,B>> {
 
@@ -63,7 +62,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         private B thisObj;
 
         List<Request> requestList = new LinkedList<Request>();
-        LocalDateTime date;
+        LocalDateTime date = LocalDateTime.now();
         LocalDateTime from;
         LocalDateTime to;
 
@@ -77,7 +76,6 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
         protected abstract B getThis();
 
         public B setList(List<Currency> currencyList){
-            //this.currencyList = currencyList;
             return thisObj;
         }
 
@@ -104,7 +102,6 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     public abstract  void addListToMap(Map<String,Object> mapsForParse);
     public abstract Map<String,Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption;
     public abstract List<String> getStringRequest(String param);
-    public abstract List<String> getStringRequest (LocalDateTime... dateArray);
     public abstract Map<String,Object> getQuotes() throws ServerRequestExeption;
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray) throws ServerRequestDateExeption, ServerRequestExeption;
 }
