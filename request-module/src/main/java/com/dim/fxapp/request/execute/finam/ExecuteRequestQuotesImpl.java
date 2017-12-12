@@ -6,22 +6,24 @@ import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.commons.lang.StringUtils;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.*;
+
 /**
  * Created by dima on 29.11.17
  */
-@Component
+//@Component
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
-    //@Value("${currency.mainfinam}")
+    @Value("${currency.mainfinam}")
     String MAIN;
-    //@Value("${currency.mainfinamrequest}")
+    @Value("${currency.mainfinamrequest}")
     String MAIN_FOR_REQUEST;
 
     private Map<String, Object> mapResp;
@@ -29,10 +31,10 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
     private Map<Currency,Map<String,String>> mapHelper;
 
-    @Autowired
-    public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}") String MAIN,
-                                    @Value("${currency.mainfinamrequest}")String MAIN_FOR_REQUEST ){
-    //public ExecuteRequestQuotesImpl(){
+    //@Autowired
+    //public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}") String MAIN,
+    //                                @Value("${currency.mainfinamrequest}")String MAIN_FOR_REQUEST ){
+    public ExecuteRequestQuotesImpl(){
         super();
         this.MAIN = MAIN;
         this.MAIN_FOR_REQUEST = MAIN_FOR_REQUEST;
@@ -41,11 +43,15 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         init();
     }
 
-    //@PostConstruct
+    @PostConstruct
     private void init(){
         mapHelper = new HashMap<>();
         currencyList.forEach(K -> {
-            String strRequest =MAIN_FOR_REQUEST+K;
+            if (StringUtils.isNotBlank(MAIN_FOR_REQUEST)){
+                StringBuilder builder = new StringBuilder(K.toString().toLowerCase());
+                String html =MAIN_FOR_REQUEST + builder.insert(3,'-').toString();
+                Document doc = Jsoup.parse(html);
+            }
         });
     }
 

@@ -26,7 +26,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     protected static CloseableHttpClient httpClient;
     protected HttpGet httpGet;
-    protected List<Currency> currencyList;
+    protected List<Currency> currencyList = Arrays.asList(Currency.values());
     protected List<F> financialEntities;
 
     protected List<Request> listofRequest;

@@ -22,8 +22,8 @@ public class RequestModuleApplication {
 		return new ExecuteRequestQuotesLiveImpl();
 	}
 
-	/*@Bean(name = "Quotes")
+	@Bean(name = "Quotes")
 	public ExecuteRequestAbstract<Quotes> getQuotes(){
 		return new ExecuteRequestQuotesImpl();
-	}*/
+	}
 }
