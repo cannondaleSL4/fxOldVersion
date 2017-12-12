@@ -15,7 +15,6 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
     @Override
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) {
-
         return null;
     }
 
