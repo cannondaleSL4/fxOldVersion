@@ -16,13 +16,14 @@ import java.util.*;
  */
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
-    @Value("${currensy.mainfinam}")
+    @Value("${currency.mainfinam}")
     String MAIN;
-    @Value("${currensy.mainfinamreques}")
+    @Value("${currency.mainfinamrequest}")
     String MAIN_FOR_REQUEST;
 
     private Map<String, Object> mapResp = new HashMap<>(); // full response from server
     private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
+
 
     @Override
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) throws ServerRequestDateExeption, ServerRequestExeption {

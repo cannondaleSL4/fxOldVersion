@@ -24,34 +24,12 @@ controller advice
 
 public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
-
-    /*@Value("${currency.latest}")
-    protected String LATEST;
-    @Value("${currency.symbols}")
-    protected String SYMBOLS;
-    @Value("${currency.base}")
-    protected String BASE;
-    @Value("${currency.historical}")
-    protected String HISTORICAL;
-    @Value("${currency.myappid}")
-    protected String MYAPPID;
-    @Value("${currency.timeseries}")
-    protected String TIMESERIES;
-    @Value("${currency.ohlc}")
-    protected String OHLC;
-    @Value("${currency.start}")
-    protected String START;
-    @Value("${currency.end}")
-    protected String END;    */
-
-    protected static CloseableHttpClient httpClient = HttpClients.createDefault();
+    protected static CloseableHttpClient httpClient;
     protected HttpGet httpGet;
+    protected List<Currency> currencyList;
+    protected List<F> financialEntities;
 
-    protected List<Currency> currencyList = Arrays.asList(Currency.values());
-    protected List<F> financialEntities = new ArrayList<F>();
-
-    //protected List<Request> requestList = new LinkedList<Request>();
-    protected List<Request> listofRequest = new ArrayList<>();
+    protected List<Request> listofRequest;
     protected LocalDateTime date;
     protected LocalDateTime from;
     protected LocalDateTime to;
@@ -59,47 +37,11 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     private Map<String, Object> mapResp = new HashMap<>(); // full response from server
     private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
 
-    protected static abstract class Builder <T extends ExecuteRequestAbstract, B extends Builder<T,B>> {
-
-        private T obj;
-        private B thisObj;
-
-        List<Request> requestList = new LinkedList<Request>();
-        LocalDateTime date = LocalDateTime.now();
-        LocalDateTime from;
-        LocalDateTime to;
-
-        public Builder(){
-            obj = createObj();
-            thisObj = getThis();
-        }
-
-        public T build() {return obj;}
-        protected abstract T createObj();
-        protected abstract B getThis();
-
-        public B setList(List<Currency> currencyList){
-            return thisObj;
-        }
-
-        public B date (LocalDateTime date){
-            this.date = date;
-            return thisObj;
-        }
-
-        public B dateFrom(LocalDateTime from){
-            this.from = from;
-            return thisObj;
-        }
-
-        public B dateTo(LocalDateTime to){
-            this.to = to;
-            return thisObj;
-        }
-    }
-
     protected ExecuteRequestAbstract(){
-
+        httpClient = HttpClients.createDefault();
+        currencyList = Arrays.asList(Currency.values());
+        financialEntities = new ArrayList<F>();
+        listofRequest = new ArrayList<>();
     }
     public abstract F getQuote(String currencyName);
     public abstract  void addListToMap(Map<String,Object> mapsForParse);

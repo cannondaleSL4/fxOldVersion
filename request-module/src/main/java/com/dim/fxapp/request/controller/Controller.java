@@ -57,6 +57,15 @@ public class Controller {
         return getQuotes.getQuotes(dateFrom,dateTo);
     }
 
+    @RequestMapping(value = "quotes/{from}")
+    public Map<String,Object> getQuotes(@PathVariable("from")String from) throws ServerRequestExeption, ServerRequestDateExeption {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-d");
+        LocalDateTime dateFrom = LocalDateTime.from(LocalDate.parse(from,formatter).atStartOfDay());
+        LocalDateTime dateTo = LocalDateTime.now();
+
+        return getQuotes.getQuotes(dateFrom,dateTo);
+    }
+
 }
 
 /*@RequestMapping(value = "/history/{from}/{to}", method = RequestMethod.GET)
