@@ -56,6 +56,9 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     protected LocalDateTime from;
     protected LocalDateTime to;
 
+    private Map<String, Object> mapResp = new HashMap<>(); // full response from server
+    private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
+
     protected static abstract class Builder <T extends ExecuteRequestAbstract, B extends Builder<T,B>> {
 
         private T obj;

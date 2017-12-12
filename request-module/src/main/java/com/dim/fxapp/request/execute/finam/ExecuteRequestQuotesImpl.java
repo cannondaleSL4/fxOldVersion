@@ -19,9 +19,14 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     @Value("${currensy.mainfinam}")
     String MAIN;
 
+    private Map<String, Object> mapResp = new HashMap<>(); // full response from server
+    private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
+
     @Override
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) throws ServerRequestDateExeption, ServerRequestExeption {
-        return null;
+        if(dateArray.length != 2) throw new ServerRequestDateExeption("incorrect date settings please check request format");
+
+        return mapResp;
     }
 
     @Override
