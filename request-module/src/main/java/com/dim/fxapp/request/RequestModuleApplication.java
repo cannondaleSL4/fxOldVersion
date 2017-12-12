@@ -1,5 +1,6 @@
 package com.dim.fxapp.request;
 
+import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.finam.ExecuteRequestQuotesImpl;
@@ -21,8 +22,8 @@ public class RequestModuleApplication {
 		return new ExecuteRequestQuotesLiveImpl();
 	}
 
-	@Bean(name = "Quotes")
-	public ExecuteRequestAbstract getQuotes(){
+	/*@Bean(name = "Quotes")
+	public ExecuteRequestAbstract<Quotes> getQuotes(){
 		return new ExecuteRequestQuotesImpl();
-	}
+	}*/
 }

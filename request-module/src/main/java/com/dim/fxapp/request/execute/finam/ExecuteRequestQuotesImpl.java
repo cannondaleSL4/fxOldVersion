@@ -6,24 +6,48 @@ import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
 /**
  * Created by dima on 29.11.17
  */
+@Component
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
-    @Value("${currency.mainfinam}")
+    //@Value("${currency.mainfinam}")
     String MAIN;
-    @Value("${currency.mainfinamrequest}")
+    //@Value("${currency.mainfinamrequest}")
     String MAIN_FOR_REQUEST;
 
-    private Map<String, Object> mapResp = new HashMap<>(); // full response from server
-    private Map<String,Double> ratesMap = new HashMap<>(); // only rates map from mapResp
+    private Map<String, Object> mapResp;
+    private Map<String,Double> ratesMap;
 
+    private Map<Currency,Map<String,String>> mapHelper;
+
+    @Autowired
+    public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}") String MAIN,
+                                    @Value("${currency.mainfinamrequest}")String MAIN_FOR_REQUEST ){
+    //public ExecuteRequestQuotesImpl(){
+        super();
+        this.MAIN = MAIN;
+        this.MAIN_FOR_REQUEST = MAIN_FOR_REQUEST;
+        mapResp = new HashMap<>(); // full response from server
+        ratesMap = new HashMap<>(); // full response from server
+        init();
+    }
+
+    //@PostConstruct
+    private void init(){
+        mapHelper = new HashMap<>();
+        currencyList.forEach(K -> {
+            String strRequest =MAIN_FOR_REQUEST+K;
+        });
+    }
 
     @Override
     public Map<String, Object> getQuotes(LocalDateTime... dateArray) throws ServerRequestDateExeption, ServerRequestExeption {
@@ -52,8 +76,6 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
         String tempBase = listofRequest.get(0).getBase();
         temporaryMap.put(tempBase,new StringBuilder());
-
-
 
         return listOfStringRequest;
     }
