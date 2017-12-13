@@ -5,6 +5,8 @@ import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.finam.ExecuteRequestQuotesImpl;
 import com.dim.fxapp.request.execute.finam.ExecuteRequestQuotesLiveImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -23,7 +25,7 @@ public class RequestModuleApplication {
 	}
 
 	@Bean(name = "Quotes")
-	public ExecuteRequestAbstract<Quotes> getQuotes(){
-		return new ExecuteRequestQuotesImpl();
+	public ExecuteRequestAbstract<Quotes> getQuotes(@Value("${currency.mainfinam}") String value){
+		return new ExecuteRequestQuotesImpl(value);
 	}
 }

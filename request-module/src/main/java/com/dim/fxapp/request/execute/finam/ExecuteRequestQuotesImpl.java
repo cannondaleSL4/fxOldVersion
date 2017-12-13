@@ -23,10 +23,10 @@ import java.util.*;
 //@Component
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
-    @Value("${currency.mainfinam}")
-    String MAIN;
-    @Value("${currency.mainfinamrequest}")
-    String MAIN_FOR_REQUEST;
+    //@Value("${currency.mainfinam}")
+    private final  String MAIN;
+    //@Value("${currency.mainfinamrequest}")
+    private final String MAIN_FOR_REQUEST;
 
     private Map<String, Object> mapResp;
     private Map<String,Double> ratesMap;
@@ -39,13 +39,14 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         this.MAIN_FOR_REQUEST = MAIN_FOR_REQUEST;
         mapResp = new HashMap<>(); // full response from server
         ratesMap = new HashMap<>(); // full response from server
-        init();
+        //init();
     }
 
     @PostConstruct
     private void init(){
         mapHelper = new HashMap<>();
         for(String K :currencyList){
+            String test = MAIN_FOR_REQUEST;
             if (StringUtils.isNotBlank(MAIN_FOR_REQUEST)){
                 StringBuilder builder = new StringBuilder(K.toLowerCase());
                 String html =MAIN_FOR_REQUEST + builder.insert(3,'-').toString();
