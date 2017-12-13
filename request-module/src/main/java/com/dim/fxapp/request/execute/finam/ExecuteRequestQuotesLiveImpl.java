@@ -12,6 +12,7 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -21,6 +22,7 @@ import java.util.*;
 /**
  * Created by dima on 30.11.17.
  */
+@Service("LiveQuotes")
 public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
 
     @Value("${currency.main}")

@@ -14,18 +14,22 @@ import org.springframework.context.annotation.Bean;
 //@EnableEurekaClient
 @SpringBootApplication
 public class RequestModuleApplication {
+	@Value("${currency.mainfinam}")
+	String MAIN;
+
+	@Value("${currency.mainfinamrequest}")
+	String MAIN_FOR_REQUEST;
 
 	public static void main(String[] args) {
 		SpringApplication.run(RequestModuleApplication.class, args);
 	}
-
-	@Bean(name = "LiveQuotes")
+	/*@Bean(name = "LiveQuotes")
 	public ExecuteRequestAbstract<QuotesLive> getLiveQuotes(){
 		return new ExecuteRequestQuotesLiveImpl();
 	}
 
 	@Bean(name = "Quotes")
-	public ExecuteRequestAbstract<Quotes> getQuotes(@Value("${currency.mainfinam}") String value){
-		return new ExecuteRequestQuotesImpl(value);
-	}
+	public ExecuteRequestAbstract<Quotes> getQuotes(){
+		return new ExecuteRequestQuotesImpl(MAIN,MAIN_FOR_REQUEST);
+	}*/
 }

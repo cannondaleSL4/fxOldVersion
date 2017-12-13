@@ -6,58 +6,78 @@ import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
+import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
+
 /**
  * Created by dima on 29.11.17
  */
-//@Component
+
+@Service("Quotes")
 public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
-    //@Value("${currency.mainfinam}")
-    private final  String MAIN;
-    //@Value("${currency.mainfinamrequest}")
-    private final String MAIN_FOR_REQUEST;
+    private final  String main;
+    private final String mainForRequest;
 
     private Map<String, Object> mapResp;
     private Map<String,Double> ratesMap;
 
     private Map<Currency,Map<String,String>> mapHelper;
 
-    public ExecuteRequestQuotesImpl(){
+    public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}")String main, @Value("${currency.mainfinamrequest}") String mainForRequest ){
         super();
-        this.MAIN = MAIN;
-        this.MAIN_FOR_REQUEST = MAIN_FOR_REQUEST;
+        this.main = main;
+        this.mainForRequest = mainForRequest;
         mapResp = new HashMap<>(); // full response from server
         ratesMap = new HashMap<>(); // full response from server
-        //init();
     }
 
     @PostConstruct
     private void init(){
         mapHelper = new HashMap<>();
         for(String K :currencyList){
-            String test = MAIN_FOR_REQUEST;
-            if (StringUtils.isNotBlank(MAIN_FOR_REQUEST)){
+            if (StringUtils.isNotBlank(mainForRequest)){
                 StringBuilder builder = new StringBuilder(K.toLowerCase());
-                String html =MAIN_FOR_REQUEST + builder.insert(3,'-').toString();
-
+                String html =mainForRequest + builder.insert(3,'-').toString();
                 try {
                     Document doc = Jsoup.connect(html).get();
                     Element link = doc.getElementById("content-block").getElementsByTag("script").get(0);
+                    String dataFromHTML = link.childNode(0).attr("data");
+
+                    dataFromHTML = StringUtils.substringAfter(dataFromHTML,"Finam.IssuerProfile.Main.issue = ");
+                    ObjectMapper mapper = new ObjectMapper();
+                    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+                    Map<String, Object> map = mapper.readValue(dataFromHTML, new TypeReference<HashMap<String,Object>>(){});
+
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
+        }
+    }
+
+    public class MyDto {
+
+        private String stringValue;
+        private int intValue;
+        private boolean booleanValue;
+
+        public MyDto() {
+            super();
         }
     }
 
