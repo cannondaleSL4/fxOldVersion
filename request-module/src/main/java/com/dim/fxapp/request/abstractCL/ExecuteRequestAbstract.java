@@ -11,6 +11,8 @@ import org.apache.http.impl.client.HttpClients;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * Created by dima on 02.12.17.
@@ -26,7 +28,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     protected static CloseableHttpClient httpClient;
     protected HttpGet httpGet;
-    protected List<Currency> currencyList = Arrays.asList(Currency.values());
+    protected List<String> currencyList;
     protected List<F> financialEntities;
 
     protected List<Request> listofRequest;
@@ -39,7 +41,10 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
 
     protected ExecuteRequestAbstract(){
         httpClient = HttpClients.createDefault();
-        currencyList = Arrays.asList(Currency.values());
+        currencyList = Arrays.asList(Currency.values())
+                .stream()
+                .map(K -> K.toString())
+                .collect(Collectors.toList());
         financialEntities = new ArrayList<F>();
         listofRequest = new ArrayList<>();
     }

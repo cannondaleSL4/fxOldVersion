@@ -51,9 +51,9 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
 
         currencyList.forEach(K -> listofRequest.add(
                 Request.builder()
-                        .currencyName(K.toString())
-                        .baseCurrency( K.toString().substring(0,3))
-                        .quoteCurrency( K.toString().substring(3))
+                        .currencyName(K)
+                        .baseCurrency( K.substring(0,3))
+                        .quoteCurrency( K.substring(3))
                         .build()));
 
         listofRequest.forEach(K -> K.identifyBase());

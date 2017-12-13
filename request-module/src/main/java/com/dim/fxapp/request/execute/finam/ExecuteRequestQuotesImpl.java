@@ -9,9 +9,11 @@ import com.dim.fxapp.request.exeption.ServerRequestExeption;
 import org.apache.commons.lang.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 
 import javax.annotation.PostConstruct;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -31,9 +33,6 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
 
     private Map<Currency,Map<String,String>> mapHelper;
 
-    //@Autowired
-    //public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}") String MAIN,
-    //                                @Value("${currency.mainfinamrequest}")String MAIN_FOR_REQUEST ){
     public ExecuteRequestQuotesImpl(){
         super();
         this.MAIN = MAIN;
@@ -46,13 +45,19 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     @PostConstruct
     private void init(){
         mapHelper = new HashMap<>();
-        currencyList.forEach(K -> {
+        for(String K :currencyList){
             if (StringUtils.isNotBlank(MAIN_FOR_REQUEST)){
-                StringBuilder builder = new StringBuilder(K.toString().toLowerCase());
+                StringBuilder builder = new StringBuilder(K.toLowerCase());
                 String html =MAIN_FOR_REQUEST + builder.insert(3,'-').toString();
-                Document doc = Jsoup.parse(html);
+
+                try {
+                    Document doc = Jsoup.connect(html).get();
+                    Element link = doc.getElementById("content-block").getElementsByTag("script").get(0);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        });
+        }
     }
 
     @Override

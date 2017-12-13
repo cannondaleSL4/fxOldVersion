@@ -6,7 +6,7 @@ package com.dim.fxapp.entity.enums;
 public enum Currency {
     GBPAUD ("GBPAUD"),
     GBPJPY ("GBPJPY"),
-    GBPNZD ("GBPNZD"),
+    //GBPNZD ("GBPNZD"),
 
     EURJPY ("EURJPY"),
     EURGBP ("EURGBP"),
