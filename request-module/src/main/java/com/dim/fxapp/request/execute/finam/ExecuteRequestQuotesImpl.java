@@ -6,10 +6,13 @@ import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.lang.StringUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,6 +23,8 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
@@ -36,7 +41,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     private Map<String, Object> mapResp;
     private Map<String,Double> ratesMap;
 
-    private Map<Currency,Map<String,String>> mapHelper;
+    private Map<String,Object> mapHelper;
 
     public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}")String main, @Value("${currency.mainfinamrequest}") String mainForRequest ){
         super();
@@ -49,6 +54,8 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     @PostConstruct
     private void init(){
         mapHelper = new HashMap<>();
+        String id = "";
+        Pattern pattern = Pattern.compile("(\"quote\":\\s\\d{1,})");
         for(String K :currencyList){
             if (StringUtils.isNotBlank(mainForRequest)){
                 StringBuilder builder = new StringBuilder(K.toLowerCase());
@@ -58,26 +65,13 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
                     Element link = doc.getElementById("content-block").getElementsByTag("script").get(0);
                     String dataFromHTML = link.childNode(0).attr("data");
 
-                    dataFromHTML = StringUtils.substringAfter(dataFromHTML,"Finam.IssuerProfile.Main.issue = ");
-                    ObjectMapper mapper = new ObjectMapper();
-                    mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
-                    Map<String, Object> map = mapper.readValue(dataFromHTML, new TypeReference<HashMap<String,Object>>(){});
+                    Matcher matcher = pattern.matcher(dataFromHTML);
+                    id = matcher.group(1);
 
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-        }
-    }
-
-    public class MyDto {
-
-        private String stringValue;
-        private int intValue;
-        private boolean booleanValue;
-
-        public MyDto() {
-            super();
         }
     }
 
