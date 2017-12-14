@@ -4,6 +4,7 @@ import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
+import com.dim.fxapp.request.exeption.FinamError;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
 import com.fasterxml.jackson.core.JsonParser;
@@ -52,7 +53,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     }
 
     @PostConstruct
-    private void init(){
+    private void init() throws FinamError {
         mapHelper = new HashMap<>();
         String id = "";
         Pattern pattern = Pattern.compile("(\"quote\":\\s\\d{1,})");
@@ -66,7 +67,11 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
                     String dataFromHTML = link.childNode(0).attr("data");
 
                     Matcher matcher = pattern.matcher(dataFromHTML);
-                    id = matcher.group(1);
+                    if(matcher.find()){
+                        id = matcher.group(1);
+                    } else {
+                        throw  new FinamError(String.format("Finam Error have no id for %s currenct",K));
+                    }
 
                 } catch (IOException e) {
                     e.printStackTrace();

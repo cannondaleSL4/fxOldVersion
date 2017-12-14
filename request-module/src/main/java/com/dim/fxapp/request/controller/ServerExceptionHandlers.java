@@ -1,5 +1,6 @@
 package com.dim.fxapp.request.controller;
 
+import com.dim.fxapp.request.exeption.FinamError;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
 import lombok.Data;
@@ -28,6 +29,13 @@ public class ServerExceptionHandlers {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ResponseBody
     public ErrorResponse dateError(final ServerRequestExeption ex) {
+        return new ErrorResponse("DATE_INCORRECT", "Incorrect date settings (or format) please check request format");
+    }
+
+    @ExceptionHandler(FinamError.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseBody
+    public ErrorResponse currensyCodeError(final ErrorResponse ex) {
         return new ErrorResponse("DATE_INCORRECT", "Incorrect date settings (or format) please check request format");
     }
 
