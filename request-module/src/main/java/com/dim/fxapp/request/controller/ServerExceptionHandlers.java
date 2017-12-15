@@ -33,7 +33,7 @@ public class ServerExceptionHandlers {
     }
 
     @ExceptionHandler(FinamError.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ResponseBody
     public ErrorResponse currensyCodeError(final ErrorResponse ex) {
         return new ErrorResponse("DATE_INCORRECT", "Incorrect date settings (or format) please check request format");
