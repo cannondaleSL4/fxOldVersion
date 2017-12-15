@@ -2,14 +2,16 @@ package com.dim.fxapp.request.execute;
 
 import lombok.*;
 
+import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 /**
  * Created by dima on 02.12.17.
  */
-@Builder
+
 @Getter
 @EqualsAndHashCode
 public class Request implements Comparable<Request> {
@@ -17,7 +19,6 @@ public class Request implements Comparable<Request> {
     private String requestedName;
     private String baseCurrency;
     private String quoteCurrency;
-    @Builder.Default
     private String base = "USD" ;
     private LocalDateTime date;
     private LocalDateTime from;
@@ -28,8 +29,19 @@ public class Request implements Comparable<Request> {
     т.е. AUDUSD и AUDJPY это двумя разными запросами, тк. AUDUSD у них храниться как фактически USDAUD
      */
 
+    @Builder
+    public Request(String currencyName, String requestedName, String baseCurrency, String quoteCurrency, String base, LocalDateTime date, LocalDateTime from, LocalDateTime to) {
+        this.currencyName = currencyName;
+        this.requestedName = requestedName;
+        this.baseCurrency = baseCurrency;
+        this.quoteCurrency = quoteCurrency;
+        this.base = Objects.isNull(base) ? "USD" : base;
+        this.date = date;
+        this.from = from;
+        this.to = to;
+    }
 
-
+    @PostConstruct
     public void identifyBase(){
         if (quoteCurrency.equals("USD")){
             this.requestedName = baseCurrency;

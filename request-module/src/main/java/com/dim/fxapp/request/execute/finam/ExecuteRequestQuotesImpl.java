@@ -1,6 +1,7 @@
 package com.dim.fxapp.request.execute.finam;
 
 import com.dim.fxapp.entity.enums.Currency;
+import com.dim.fxapp.entity.enums.Period;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
@@ -26,6 +27,7 @@ import java.time.LocalDateTime;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
@@ -34,13 +36,14 @@ import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
  */
 
 @Service("Quotes")
-public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
+public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes,Object> {
 
     private final  String main;
     private final String mainForRequest;
 
     private Map<String, Object> mapResp;
     private Map<String,Double> ratesMap;
+    private List<String>listOfPeriod;
 
     private Map<String,Integer> mapHelper;
 
@@ -48,6 +51,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         super();
         this.main = main;
         this.mainForRequest = mainForRequest;
+        this.listOfPeriod = Arrays.asList(Period.values()).stream().map(K -> K.toString()).collect(Collectors.toList());
         mapResp = new HashMap<>(); // full response from server
         ratesMap = new HashMap<>(); // full response from server
     }
@@ -84,12 +88,15 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
         if(dateArray.length != 2) throw new ServerRequestDateExeption("incorrect date settings please check request format");
         from = dateArray[0];
         to = dateArray[1];
-        mapResp = getServerResponse(getStringRequest("latest"));
+        mapResp = getServerResponse(getStringRequest(from,to,listOfPeriod));
         return mapResp;
     }
 
     @Override
-    public List<String> getStringRequest(Object...obj) {
+    public List<String> getStringRequest(Object...objects) {
+        this.from = (LocalDateTime) objects[0];
+        this.to = (LocalDateTime) objects[1];
+        List<String>  requestedPeriods = (List<String>) objects[2];
         List<String> listOfStringRequest = new ArrayList<>();
         Map<String,StringBuilder> temporaryMap = new HashMap<>();
 
@@ -98,6 +105,8 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
                         .currencyName(K.toString())
                         .baseCurrency( K.toString().substring(0,3))
                         .quoteCurrency( K.toString().substring(3))
+                        .from(from)
+                        .to(to)
                         .build()));
 
         listofRequest.forEach(K -> K.identifyBase());
@@ -125,6 +134,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     public Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
         return null;
     }
+
 
     @Override
     public Map<String, Object> getQuotes() throws ServerRequestExeption {

@@ -23,7 +23,7 @@ import java.util.*;
  * Created by dima on 30.11.17.
  */
 @Service("LiveQuotes")
-public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive> {
+public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesLive,Object> {
 
     @Value("${currency.main}")
     protected String MAIN;
@@ -46,9 +46,9 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         return mapResp;
     }
 
-    @Override
-    public List<String> getStringRequest(Object...obj){
-        String param = (String)obj[0];
+    //@Override
+    public List<String> getStringRequest(Object...objects){
+        String param = (String) objects[0];
         List<String> listOfStringRequest = new ArrayList<>();
         Map<String,StringBuilder> temporaryMap = new HashMap<>();
 
@@ -59,7 +59,7 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                         .quoteCurrency( K.substring(3))
                         .build()));
 
-        listofRequest.forEach(K -> K.identifyBase());
+        //listofRequest.forEach(K -> K.identifyBase());
 
         Collections.sort(listofRequest);
 

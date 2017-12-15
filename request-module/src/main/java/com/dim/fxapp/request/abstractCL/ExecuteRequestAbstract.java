@@ -17,14 +17,8 @@ import java.util.stream.Collectors;
 /**
  * Created by dima on 02.12.17.
  */
-/*
-controller advice
- */
-/*
-* this is class is abstract, but can use builder pattern
-*/
 
-public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
+public abstract class ExecuteRequestAbstract <F extends FinancialEntity,P extends Object> {
 
     protected static CloseableHttpClient httpClient;
     protected HttpGet httpGet;
@@ -51,7 +45,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     public abstract F getQuote(String currencyName);
     public abstract  void addListToMap(Map<String,Object> mapsForParse);
     public abstract Map<String,Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption;
-    public abstract List<String> getStringRequest(Object...objects);
+    public abstract List<String> getStringRequest(List<P>);
     public abstract Map<String,Object> getQuotes() throws ServerRequestExeption;
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray) throws ServerRequestDateExeption, ServerRequestExeption;
 }

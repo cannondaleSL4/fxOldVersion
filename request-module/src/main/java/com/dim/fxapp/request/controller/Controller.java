@@ -28,11 +28,11 @@ public class Controller {
 
     @Autowired
     @Qualifier("LiveQuotes")
-    private ExecuteRequestAbstract<QuotesLive> getLiveQuotes;
+    private ExecuteRequestAbstract<QuotesLive,Object> getLiveQuotes;
 
     @Autowired
     @Qualifier("Quotes")
-    private ExecuteRequestAbstract<Quotes> getQuotes;
+    private ExecuteRequestAbstract<Quotes, Object> getQuotes;
 
     @RequestMapping(value = "/livequotes" , method = RequestMethod.GET)
     public Map<String,Object> getQuotesLive() throws ServerRequestExeption {
