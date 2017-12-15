@@ -42,7 +42,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     private Map<String, Object> mapResp;
     private Map<String,Double> ratesMap;
 
-    private Map<String,Object> mapHelper;
+    private Map<String,Integer> mapHelper;
 
     public ExecuteRequestQuotesImpl(@Value("${currency.mainfinam}")String main, @Value("${currency.mainfinamrequest}") String mainForRequest ){
         super();
@@ -55,7 +55,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     @PostConstruct
     private void init() throws FinamError {
         mapHelper = new HashMap<>();
-        int id;
+        Integer id;
         Pattern pattern = Pattern.compile("\"quote\":\\s(\\d{1,}),\\s");
         for(String K :currencyList){
             if (StringUtils.isNotBlank(mainForRequest)){
@@ -71,7 +71,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
                     } else {
                         throw  new FinamError(String.format("Finam Error have no id for %s currenct",K));
                     }
-
+                    mapHelper.put(K,id);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -89,7 +89,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     }
 
     @Override
-    public List<String> getStringRequest(String param) {
+    public List<String> getStringRequest(Object...obj) {
         List<String> listOfStringRequest = new ArrayList<>();
         Map<String,StringBuilder> temporaryMap = new HashMap<>();
 

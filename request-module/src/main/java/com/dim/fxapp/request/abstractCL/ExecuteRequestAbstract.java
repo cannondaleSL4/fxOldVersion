@@ -51,7 +51,7 @@ public abstract class ExecuteRequestAbstract <F extends FinancialEntity> {
     public abstract F getQuote(String currencyName);
     public abstract  void addListToMap(Map<String,Object> mapsForParse);
     public abstract Map<String,Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption;
-    public abstract List<String> getStringRequest(String param);
+    public abstract List<String> getStringRequest(Object...objects);
     public abstract Map<String,Object> getQuotes() throws ServerRequestExeption;
     public abstract Map<String,Object> getQuotes(LocalDateTime...dateArray) throws ServerRequestDateExeption, ServerRequestExeption;
 }

@@ -47,7 +47,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     }
 
     @Override
-    public List<String> getStringRequest(String param){
+    public List<String> getStringRequest(Object...obj){
+        String param = (String)obj[0];
         List<String> listOfStringRequest = new ArrayList<>();
         Map<String,StringBuilder> temporaryMap = new HashMap<>();
 
