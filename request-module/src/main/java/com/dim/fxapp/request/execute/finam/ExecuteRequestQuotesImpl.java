@@ -55,8 +55,8 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
     @PostConstruct
     private void init() throws FinamError {
         mapHelper = new HashMap<>();
-        String id = "";
-        Pattern pattern = Pattern.compile("(\"quote\":\\s\\d{1,})");
+        int id;
+        Pattern pattern = Pattern.compile("\"quote\":\\s(\\d{1,}),\\s");
         for(String K :currencyList){
             if (StringUtils.isNotBlank(mainForRequest)){
                 StringBuilder builder = new StringBuilder(K.toLowerCase());
@@ -65,10 +65,9 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes> {
                     Document doc = Jsoup.connect(html).get();
                     Element link = doc.getElementById("content-block").getElementsByTag("script").get(0);
                     String dataFromHTML = link.childNode(0).attr("data");
-
                     Matcher matcher = pattern.matcher(dataFromHTML);
                     if(matcher.find()){
-                        id = matcher.group(1);
+                        id = Integer.parseInt(matcher.group(1));
                     } else {
                         throw  new FinamError(String.format("Finam Error have no id for %s currenct",K));
                     }
