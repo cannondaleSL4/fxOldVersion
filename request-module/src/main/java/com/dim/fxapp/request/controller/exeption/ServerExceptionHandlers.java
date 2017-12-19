@@ -1,4 +1,4 @@
-package com.dim.fxapp.request.controller;
+package com.dim.fxapp.request.controller.exeption;
 
 import com.dim.fxapp.request.exeption.FinamError;
 import com.dim.fxapp.request.exeption.ServerRequestDateExeption;

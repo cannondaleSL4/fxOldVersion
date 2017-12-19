@@ -1,42 +1,25 @@
 package com.dim.fxapp.request.execute.finam;
 
-import com.dim.fxapp.entity.enums.Currency;
 import com.dim.fxapp.entity.enums.Period;
 import com.dim.fxapp.entity.impl.Quotes;
+import com.dim.fxapp.request.abstractCL.Criteria;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
-import com.dim.fxapp.request.execute.Request;
-import com.dim.fxapp.request.exeption.FinamError;
-import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
 import com.dim.fxapp.request.exeption.ServerRequestExeption;
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.commons.lang.StringUtils;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.PostConstruct;
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
-
-import static org.hibernate.validator.internal.util.Contracts.assertNotNull;
 
 /**
  * Created by dima on 29.11.17
  */
 
 @Service("Quotes")
-public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes,Object> {
+public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes,Criteria> {
 
     private final  String main;
     private final String mainForRequest;
@@ -56,7 +39,7 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes,Obje
         ratesMap = new HashMap<>(); // full response from server
     }
 
-    @PostConstruct
+    /*@PostConstruct
     private void init() throws FinamError {
         mapHelper = new HashMap<>();
         Integer id;
@@ -117,27 +100,30 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes,Obje
         temporaryMap.put(tempBase,new StringBuilder());
 
         return listOfStringRequest;
-    }
-
+    }*/
 
     @Override
-    public Quotes getQuote(String currencyName) {
+    public Quotes getQuote(Criteria criteria) {
         return null;
     }
 
     @Override
-    public void addListToMap(Map<String, Object> mapsForParse) {
-
-    }
-
-    @Override
-    public Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
+    public Map<String, Object> getQuotes(Criteria criteria) throws ServerRequestExeption {
         return null;
     }
 
+    @Override
+    protected List<String> getStringRequest(Criteria criteria) {
+        return null;
+    }
 
     @Override
-    public Map<String, Object> getQuotes() throws ServerRequestExeption {
+    protected void addListToMap(Map<String, Object> mapsForParse) {
+
+    }
+
+    @Override
+    protected Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
         return null;
     }
 }
