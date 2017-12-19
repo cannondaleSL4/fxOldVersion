@@ -35,18 +35,6 @@ public class Controller {
     @Autowired
     private CreateCtiteria createCtiteria;
 
-    /*@Autowired
-    @Qualifier("today")
-    protected Criteria<Criteria> today;
-
-    @Autowired
-    @Qualifier("date")
-    protected Criteria<Criteria> date;
-
-    @Autowired
-    @Qualifier("dateFromTo")
-    protected Criteria<Criteria> dateFromTo;*/
-
     @RequestMapping(value = "/livequotes" , method = RequestMethod.GET)
     public Map<String,Object> getQuotesLive() throws ServerRequestExeption {
         return getLiveQuotes.getQuotes(createCtiteria.getToday());
@@ -70,8 +58,6 @@ public class Controller {
 
         return getQuotes.getQuotes(createCtiteria.getPeriod(dateFrom,dateTo));
     }
-
-
 
     @RequestMapping(value = "quotes/{from}")
     public Map<String,Object> getQuotes(@PathVariable("from")String from) throws ServerRequestExeption, ServerRequestDateExeption {
