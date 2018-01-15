@@ -1,8 +1,9 @@
 package com.dim.fxapp.request.execute;
 
-import lombok.*;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-import javax.annotation.PostConstruct;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Objects;
@@ -24,10 +25,6 @@ public class Request implements Comparable<Request> {
     private LocalDateTime from;
     private LocalDateTime to;
     private static Set<String> setofBases = new HashSet<>();
-    /*
-    по размеру Set<String> setofBases можно будет узнавать сколько запросов надо будет слать если можно будет изменять base
-    т.е. AUDUSD и AUDJPY это двумя разными запросами, тк. AUDUSD у них храниться как фактически USDAUD
-     */
 
     @Builder
     public Request(String currencyName, String requestedName, String baseCurrency, String quoteCurrency, String base, LocalDateTime date, LocalDateTime from, LocalDateTime to) {
@@ -41,7 +38,7 @@ public class Request implements Comparable<Request> {
         this.to = to;
     }
 
-    @PostConstruct
+    //@PostConstruct
     public void identifyBase(){
         if (quoteCurrency.equals("USD")){
             this.requestedName = baseCurrency;

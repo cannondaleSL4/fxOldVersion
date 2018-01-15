@@ -1,8 +1,8 @@
 package com.dim.fxapp.request.controller.exeption;
 
-import com.dim.fxapp.request.exeption.FinamError;
-import com.dim.fxapp.request.exeption.ServerRequestDateExeption;
-import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import com.dim.fxapp.request.execute.exeption.FinamError;
+import com.dim.fxapp.request.execute.exeption.ServerRequestDateExeption;
+import com.dim.fxapp.request.execute.exeption.ServerRequestExeption;
 import lombok.Data;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpStatus;

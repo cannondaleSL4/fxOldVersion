@@ -1,4 +1,4 @@
-package com.dim.fxapp.request.exeption;
+package com.dim.fxapp.request.execute.exeption;
 
 /**
  * Created by dima on 14.12.17.

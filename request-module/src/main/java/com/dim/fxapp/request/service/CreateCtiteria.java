@@ -1,4 +1,4 @@
-package com.dim.fxapp.request.execute;
+package com.dim.fxapp.request.service;
 
 import com.dim.fxapp.request.abstractCL.Criteria;
 import com.dim.fxapp.request.criteris.DateCriteria;
@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
  */
 @Service
 public class CreateCtiteria {
+
     public Criteria getToday(){
         return new DateCriteria();
     }

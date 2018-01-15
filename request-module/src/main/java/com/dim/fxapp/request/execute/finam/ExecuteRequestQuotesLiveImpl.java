@@ -4,18 +4,10 @@ import com.dim.fxapp.entity.impl.QuotesLive;
 import com.dim.fxapp.request.abstractCL.Criteria;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
 import com.dim.fxapp.request.execute.Request;
-import com.dim.fxapp.request.exeption.ServerRequestExeption;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.HttpEntity;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
+import com.dim.fxapp.request.execute.exeption.ServerRequestExeption;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.*;
 
 /**
@@ -28,36 +20,9 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
     protected String MAIN;
     private final String latest = "latest";
 
-    /*@Override
-    public Map<String,Object> getQuotes() throws ServerRequestExeption {
-        mapResp = getServerResponse(getStringRequest(new DateCriteria()));
-        return mapResp;
-    }*/
-
     @Override
     public Map<String, Object> getQuotes(Criteria criteria) throws ServerRequestExeption {
-        //DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        //criteria.getDate().format(formatter)
         mapResp = getServerResponse(getStringRequest(criteria));
-        return mapResp;
-    }
-
-    @Override
-    public Map<String,Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
-        for(String str: strRequest){
-            httpGet = new HttpGet(str);
-            try(CloseableHttpResponse response =  httpClient.execute(httpGet)) {
-                HttpEntity entity = response.getEntity();
-                mapResp = new ObjectMapper().readValue(EntityUtils.toString(entity), HashMap.class);
-                if(mapResp.containsKey("error")) throw new ServerRequestExeption((String)mapResp.get("error"));
-                addListToMap(mapResp);
-            } catch (ClientProtocolException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        mapResp.put("quotes",financialEntities);
         return mapResp;
     }
 
@@ -73,6 +38,8 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
                     .baseCurrency( K.substring(0,3))
                     .quoteCurrency( K.substring(3))
                     .build()));
+
+        listofRequest.forEach(K -> K.identifyBase());
 
         Collections.sort(listofRequest);
 
@@ -93,24 +60,6 @@ public class ExecuteRequestQuotesLiveImpl extends ExecuteRequestAbstract<QuotesL
         });
 
         return listOfStringRequest;
-    }
-
-    @Override
-    public void addListToMap(Map<String,Object> mapsForParse){
-        ratesMap = (Map<String, Double>) mapsForParse.get("rates");
-        final String base = (String) mapsForParse.get("base");
-
-        ratesMap.forEach((V,K) ->{
-            QuotesLive quotesLive = new QuotesLive.Builder()
-                    .name(V)
-                    .base(base)
-                    .price(K)
-                    .date(LocalDateTime.parse((String)mapsForParse.get("date")))
-                    .build();
-            financialEntities.add(quotesLive);
-        });
-        mapResp.remove("rates");
-        mapResp.remove("base");
     }
 
     @Override

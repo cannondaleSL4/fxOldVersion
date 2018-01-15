@@ -4,7 +4,7 @@ import com.dim.fxapp.entity.enums.Period;
 import com.dim.fxapp.entity.impl.Quotes;
 import com.dim.fxapp.request.abstractCL.Criteria;
 import com.dim.fxapp.request.abstractCL.ExecuteRequestAbstract;
-import com.dim.fxapp.request.exeption.ServerRequestExeption;
+import com.dim.fxapp.request.execute.exeption.ServerRequestExeption;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -117,13 +117,13 @@ public class ExecuteRequestQuotesImpl extends ExecuteRequestAbstract<Quotes,Crit
         return null;
     }
 
-    @Override
-    protected void addListToMap(Map<String, Object> mapsForParse) {
+//    @Override
+//    protected void addListToMap(Map<String, Object> mapsForParse) {
+//
+//    }
 
-    }
-
-    @Override
-    protected Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
-        return null;
-    }
+//    @Override
+//    protected Map<String, Object> getServerResponse(List<String> strRequest) throws ServerRequestExeption {
+//        return null;
+//    }
 }
